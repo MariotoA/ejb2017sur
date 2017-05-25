@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <h:head>
+        <title>Inicio</title>
+    </h:head>
+    <h:body>
+        <h:form id ="barra">  
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:menuitem value="Inicio" url="eventoGenerico.xhtml" />
+                <p:menuitem value="Sitios" url="sitioGenerico.xhtml" />
+                <c:choose>
+                <c:when test="#{login.logged}">
+                    <p:menuitem value="mis eventos" url="eventoGenerico.xhtml" />
+                </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="#{login.periodista}">
+                        <p:menuitem value="Validaciones" url="eventoGenerico.xhtml" />
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="#{login.logged}">
+                    <p:submenu label=" + ">
+                        <p:menuitem value="Crear sitio" onclick="PF('crearSit').show();"/>
+                        <p:menuitem value="Crear evento" onclick="PF('crearEv').show();" />
+                    </p:submenu>
+                    </c:when>
+                </c:choose>
+                    <f:facet name="options">
+                        <p:inputText id="buscar" style="margin-right:10px" placeholder="Buscar" onkeypress="if (event.which === 13 ||event.keyCode===13){ window.location.replace('busqueda.xhtml');return false;}"/>
+                        <c:choose>
+                            <c:when test="#{login.logged}">
+                                <p:commandLink type="button" value="Perfil" action="perfil.xhtml" ajax="false" />
+                                <p:commandLink type="button" value="Salir" action="#{login.logout()}" ajax="false" />
+                            </c:when>
+                            <c:otherwise>
+                                <p:commandButton type="button" value="Login" icon="ui-icon-extlink" onclick="PF('dlg').show();"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </f:facet>
+            </p:menubar>
+                <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Nombre/Correo:" />
+                        <p:inputText id="username" value="#{login.nombreOCorreo}" required="false" label="username" />
+
+                        <h:outputLabel for="password" value="Contraseña:" />
+                        <p:password id="password" value="#{login.contrasena}" required="false" label="password" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" update="barra"  action="#{login.autenticar()}" ajax="false"/>
+                            <p:commandButton value="¿No tienes cuenta?" action="registro.xhtml"/>
+                        </f:facet>  
+                    </h:panelGrid>
+             </p:dialog>
+        </h:form> 
+        
+        
+        
+        
+        <h:form id="Crear_Evento">
+            
+            <p:dialog header="Crear evento" widgetVar="crearEv" resizable="true">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Nombre_Evento" value="Nombre:" />
+                    <p:inputText id="Nombre_Evento" required="false" />
+                    <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
+                    <p:inputText id="Imagen_Evento" required="false" />
+                    <p:spacer></p:spacer>
+                    <p:selectOneMenu id="Selecciona_Sitio_Evento" value="Sitios" style="width:125px">
+                        <f:selectItem itemLabel="Sitios" itemValue="Sitios" />
+                        <f:selectItems value="#{vistaEventoGenerico.sitios}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>url video</p:column>
+                        <p:column>entradas</p:column>
+                        <p:column>
+                            <p:outputLabel for="datetime" value="Datetime:" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Url_Video"  required="false" /></p:column>
+                        <p:column><p:inputText id="Url_Entradas" required="false" /></p:column>
+                        <p:column>
+                            <p:calendar id="datetime" value="#{creacionEvento.fecha}"  pattern="MM/dd/yyyy HH:mm">
+                            </p:calendar>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>tag</p:column>
+                        <p:column>precio</p:column>
+                        <p:column>
+                            <p:commandButton value="Añadir fecha" update="fechas_elegidas" actionListener="#{creacionEvento.incluyeFecha()}"></p:commandButton>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Tag" required="false" /></p:column>
+                        <p:column><p:inputText id="Precio" required="false" /></p:column>
+                        <p:column>
+                            <p:outputLabel id="fechas_elegidas" value="#{creacionEvento.fechas}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
+                    <h:inputTextarea id="Descripcion_Crear_Evento"></h:inputTextarea>
+                </h:panelGrid>
+                <p:commandButton value="Enviar evento" action="eventoGenerico.xhtml" ajax="false"></p:commandButton>
+             </p:dialog>
+        </h:form>
+        
+        
+        
+    </h:body>
+</html>
+

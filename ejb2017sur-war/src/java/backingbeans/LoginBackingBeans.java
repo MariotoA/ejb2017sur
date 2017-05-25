@@ -8,8 +8,10 @@ package backingbeans;
 import entities.Usuario;
 import exception.AutenticacionException;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import negocio.LoginLocal;
 
 /**
@@ -27,7 +29,6 @@ public class LoginBackingBeans {
     public final static String SUPERUSUARIO="SUPERUSUARIO";
     private String nombreOCorreo;
     private String contrasena;
-    private String rol;
     private Usuario usuario;
     @EJB
     private LoginLocal login;
@@ -54,23 +55,41 @@ public class LoginBackingBeans {
         this.contrasena = contrasena;
     }
 
-    public String getRol() {
-        return rol;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     
-    public String autenticar(){
+    
+    public synchronized String autenticar(){
         String next=null;
         try {
             usuario = new Usuario();
             login.loginUsuario(usuario, nombreOCorreo, contrasena);
+            next="eventoGenerico.xhtml";
         } catch (AutenticacionException e) {
-            
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nombre o contraseña no existentes",null);
+            FacesContext.getCurrentInstance().addMessage("barra_registro:botonLogin", fm);
         }
         return next;
     }
+    public boolean isLogged() {
+        return usuario != null;
+    }
     
+    public boolean isPeriodista() {
+        return this.isLogged()&&usuario.getRol().equals(PERIODISTA);
+    }
+    
+    public synchronized String logout() {
+        nombreOCorreo = null;
+        contrasena = null;
+        usuario = null;
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        ctx.getExternalContext().invalidateSession();
+        return null;
+    }
 }

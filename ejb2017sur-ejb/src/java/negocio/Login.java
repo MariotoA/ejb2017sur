@@ -35,6 +35,7 @@ public class Login implements LoginLocal {
             throw new AutenticacionException();
         }
         introduceDatosEnInstanciaBackingBeans(datosLogin,u);
+        System.out.println("Login realizado por: Usuario "+u.getId());
         return datosLogin;
     }
 
