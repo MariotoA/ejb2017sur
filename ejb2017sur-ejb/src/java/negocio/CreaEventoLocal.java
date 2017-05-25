@@ -5,16 +5,13 @@
  */
 package negocio;
 
-import entities.Usuario;
 import javax.ejb.Local;
-import exception.AutenticacionException;
+
 /**
  *
  * @author malex
  */
 @Local
-public interface LoginLocal {
-
-    Usuario loginUsuario(Usuario usuario, String nombreOCorreo, Integer pass) throws AutenticacionException;
+public interface CreaEventoLocal {
     
 }

@@ -68,11 +68,12 @@ public class LoginBackingBeans {
         String next=null;
         try {
             usuario = new Usuario();
-            login.loginUsuario(usuario, nombreOCorreo, contrasena);
+            login.loginUsuario(usuario, nombreOCorreo, contrasena.hashCode());
             next="eventoGenerico.xhtml";
         } catch (AutenticacionException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Nombre o contraseña no existentes",null);
             FacesContext.getCurrentInstance().addMessage("barra_registro:botonLogin", fm);
+            usuario = null;
         }
         return next;
     }

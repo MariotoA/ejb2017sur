@@ -24,14 +24,13 @@ public class Login implements LoginLocal {
     private EntityManager em;
 
     @Override
-    public Usuario loginUsuario(Usuario datosLogin, String nombreOCorreo, String pass) throws AutenticacionException {
-        Query q = em.createQuery("SELECT i FROM Usuario i WHERE i.password = :pass AND (i.nombre = :nombre OR i.email = :email)");
+    public Usuario loginUsuario(Usuario datosLogin, String nombreOCorreo, Integer hashPass) throws AutenticacionException {
+        Query q = em.createQuery("SELECT i FROM Usuario i WHERE i.nombre = :nombre OR i.email = :email");
         List<Usuario> usLogin = q.setParameter("nombre", nombreOCorreo)
                         .setParameter("email", nombreOCorreo)
-                        .setParameter("pass", pass)
                 .getResultList();
         Usuario u = usLogin.stream().findFirst().orElse(null);
-        if (u == null) {
+        if (u == null || u.getPassword().hashCode() != hashPass) {
             throw new AutenticacionException();
         }
         introduceDatosEnInstanciaBackingBeans(datosLogin,u);
