@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="barra_registo">
+        <p:menubar>
+                <p:menuitem value="Inicio" url="eventoGenerico.xhtml" />
+                <p:menuitem value="¿Tienes cuenta?" onclick="PF('dlg').show()"/>
+        </p:menubar>
+            <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Username:" />
+                        <p:inputText id="username" value="#{login.nombreOCorreo}" required="false" label="username" />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{login.contrasena}" required="false" label="password" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" action="#{login.autenticar()}" ajax="false"/>
+                        </f:facet>  
+                    </h:panelGrid>
+             </p:dialog>
+        </h:form>
+        <h:form id="Registro_datos">
+            <h:panelGrid columns="1">
+                <p:inputText id="nombreRegistro" placeholder="Nombre de usuario" value="#{registro.us.nombre}"/>
+                <p:message for="nombreRegistro"/>
+                <p:inputText id="emailRegistro" placeholder="Email" value="#{registro.us.email}"/>
+                <p:message for="emailRegistro"/>
+                <p:password id="passRegistro" placeholder="Contraseña" value="#{registro.us.password}"/>
+                <p:message for="passRegistro"/>
+                <p:password id="repassRegistro" placeholder="Repetir contraseña" value="#{registro.repetirPass}"/>
+                <p:message for="repassRegistro"/>
+            </h:panelGrid>
+            <p:commandButton value="¡Todo listo!" action="#{registro.registrarUsuario()}" ajax="false"></p:commandButton>
+        </h:form>
+    </h:body>
+</html>
+
