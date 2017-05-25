@@ -23,7 +23,9 @@
                         <p:password id="password" value="#{login.contrasena}" required="false" label="password" />
 
                         <f:facet name="footer">
-                            <p:commandButton value="Login" action="#{login.autenticar()}" ajax="false"/>
+                            <p:commandButton id="botonLogin" value="Login" action="#{login.autenticar()}" ajax="false">
+                                <p:message for="Login"/>
+                            </p:commandButton>
                         </f:facet>  
                     </h:panelGrid>
              </p:dialog>

@@ -5,8 +5,12 @@
  */
 package backingbeans;
 
+import entities.Usuario;
+import exception.AutenticacionException;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import negocio.LoginLocal;
 
 /**
  *
@@ -24,7 +28,16 @@ public class LoginBackingBeans {
     private String nombreOCorreo;
     private String contrasena;
     private String rol;
-
+    private Usuario usuario;
+    @EJB
+    private LoginLocal login;
+    
+    
+    
+    public LoginBackingBeans() {
+    
+    }
+    
     public String getNombreOCorreo() {
         return nombreOCorreo;
     }
@@ -50,7 +63,14 @@ public class LoginBackingBeans {
     }
     
     public String autenticar(){
-        return null;
+        String next=null;
+        try {
+            usuario = new Usuario();
+            login.loginUsuario(usuario, nombreOCorreo, contrasena);
+        } catch (AutenticacionException e) {
+            
+        }
+        return next;
     }
     
 }

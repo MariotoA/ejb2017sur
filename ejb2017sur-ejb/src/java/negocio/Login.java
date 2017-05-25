@@ -6,6 +6,7 @@
 package negocio;
 
 import entities.Usuario;
+import exception.AutenticacionException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,16 +24,26 @@ public class Login implements LoginLocal {
     private EntityManager em;
 
     @Override
-    public void loginUsuario(Usuario datosLogin) {
+    public Usuario loginUsuario(Usuario datosLogin, String nombreOCorreo, String pass) throws AutenticacionException {
         Query q = em.createQuery("SELECT i FROM Usuario i WHERE i.password = :pass AND (i.nombre = :nombre OR i.email = :email)");
-        List<Usuario> usLogin = q.setParameter("nombre", datosLogin.getNombre())
-                        .setParameter("email", datosLogin.getEmail())
-                        .setParameter("pass", datosLogin.getPassword())
+        List<Usuario> usLogin = q.setParameter("nombre", nombreOCorreo)
+                        .setParameter("email", nombreOCorreo)
+                        .setParameter("pass", pass)
                 .getResultList();
         Usuario u = usLogin.stream().findFirst().orElse(null);
-        if (u!=null) {
-           //PALANTE 
+        if (u == null) {
+            throw new AutenticacionException();
         }
+        introduceDatosEnInstanciaBackingBeans(datosLogin,u);
+        return datosLogin;
+    }
+
+    private void introduceDatosEnInstanciaBackingBeans(Usuario usBacking, Usuario usNegocio) {
+        usBacking.setNombre(usNegocio.getNombre());
+        usBacking.setEmail(usNegocio.getEmail());
+        usBacking.setRol(usNegocio.getRol());
+        usBacking.setPassword(null);
+        usBacking.setRecibirNotifiaciones(usNegocio.isRecibirNotifiaciones());
     }
     
     

@@ -7,7 +7,7 @@ package negocio;
 
 import entities.Usuario;
 import javax.ejb.Local;
-
+import exception.AutenticacionException;
 /**
  *
  * @author malex
@@ -15,6 +15,6 @@ import javax.ejb.Local;
 @Local
 public interface LoginLocal {
 
-    void loginUsuario(Usuario usuario);
+    Usuario loginUsuario(Usuario usuario, String nombreOCorreo, String pass) throws AutenticacionException;
     
 }
