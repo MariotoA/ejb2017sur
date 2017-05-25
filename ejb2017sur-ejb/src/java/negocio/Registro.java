@@ -79,7 +79,7 @@ public class Registro implements RegistroLocal {
         }
         
         if(us.getEmail() == null || us.getEmail().equals("") ||
-                us.getEmail().matches("[a-zA-Z_][a-zA-Z0-9_/.]*/@[a-zA-Z0-9_]+/.[a-zA-Z0-9_]+") 
+                !us.getEmail().matches("[a-zA-Z_][a-zA-Z0-9_/.]*/@[a-zA-Z0-9_]+/.[a-zA-Z0-9_]+") 
                 || correos.contains(us.getEmail())) {
             throw new CorreoInvalidoException();
         }
