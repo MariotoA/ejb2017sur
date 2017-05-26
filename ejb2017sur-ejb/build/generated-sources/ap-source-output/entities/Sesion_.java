@@ -11,7 +11,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Sesion_ {
 
 	public static volatile SingularAttribute<Sesion, String> urlCompraEntrada;
-	public static volatile SingularAttribute<Sesion, Float> precio;
+	public static volatile SingularAttribute<Sesion, Double> precio;
 	public static volatile SingularAttribute<Sesion, Date> fechaInicio;
 	public static volatile ListAttribute<Sesion, Interes> sesionesAlasQueSeRefiere;
 	public static volatile SingularAttribute<Sesion, Long> id;

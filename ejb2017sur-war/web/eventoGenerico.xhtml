@@ -68,9 +68,11 @@
         <h:form id="Crear_Evento">
             
             <p:dialog header="Crear evento" widgetVar="crearEv" resizable="true">
+                <p:wizard flowListener="#{creaEvento.onFlowProcess}">
+                    <p:tab id="Creacion_Datos_Evento" title="Evento">
                 <h:panelGrid columns="1" cellpadding="5">
-                    <h:outputLabel for="Nombre_Evento" value="Nombre:" />
-                    <p:inputText id="Nombre_Evento" required="false" />
+                    <h:outputLabel for="Nombre_Evento" value="Nombre:"/>
+                    <p:inputText id="Nombre_Evento" required="false"/>
                     <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
                     <p:inputText id="Imagen_Evento" required="false" />
                     <p:spacer></p:spacer>
@@ -81,40 +83,38 @@
                 </h:panelGrid>
                 <p:panelGrid>
                     <p:row>
-                        <p:column>url video</p:column>
-                        <p:column>entradas</p:column>
-                        <p:column>
-                            <p:outputLabel for="datetime" value="Datetime:" />
-                        </p:column>
+                        <p:column>url video:</p:column>
+                        <p:column>tag</p:column>
                     </p:row>
                     <p:row>
                         <p:column><p:inputText id="Url_Video"  required="false" /></p:column>
-                        <p:column><p:inputText id="Url_Entradas" required="false" /></p:column>
-                        <p:column>
-                            <p:calendar id="datetime" value="#{creacionEvento.fecha}"  pattern="MM/dd/yyyy HH:mm">
-                            </p:calendar>
-                        </p:column>
-                    </p:row>
-                    <p:row>
-                        <p:column>tag</p:column>
-                        <p:column>precio</p:column>
-                        <p:column>
-                            <p:commandButton value="Añadir fecha" update="fechas_elegidas" actionListener="#{creacionEvento.incluyeFecha()}"></p:commandButton>
-                        </p:column>
-                    </p:row>
-                    <p:row>
                         <p:column><p:inputText id="Tag" required="false" /></p:column>
-                        <p:column><p:inputText id="Precio" required="false" /></p:column>
-                        <p:column>
-                            <p:outputLabel id="fechas_elegidas" value="#{creacionEvento.fechas}"/>
-                        </p:column>
                     </p:row>
                 </p:panelGrid>
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
                     <h:inputTextarea id="Descripcion_Crear_Evento"></h:inputTextarea>
                 </h:panelGrid>
-                <p:commandButton value="Enviar evento" action="eventoGenerico.xhtml" ajax="false"></p:commandButton>
+             
+                </p:tab>
+                    <p:tab id="Creacion_Datos_Sesiones" title="Sesiones">
+                        <h:form id="crea_sesion">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Fecha comienzo"/>
+                            <p:outputLabel value="Fecha fin"/>
+                            
+                        <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm">
+                            </p:calendar>
+                        <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm">
+                            </p:calendar>
+                        </h:panelGrid>
+                        <p:inputNumber id="Precio"  placeholder="Precio sesion" required="false"/>
+                        <p:outputLabel for="Url_Entradas"/>
+                        <p:inputText id="Url_Entradas" required="false" />
+                        <p:commandButton value="Añade sesión" actionListener="#{creaEvento.creaSesion()}"/>
+                        </h:form>
+                    </p:tab>
+            </p:wizard>
              </p:dialog>
         </h:form>
         

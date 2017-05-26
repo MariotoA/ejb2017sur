@@ -30,7 +30,7 @@ public class Sesion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private float precio;
+    private Double precio;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInicio;
     @Temporal(TemporalType.TIMESTAMP)
@@ -88,11 +88,11 @@ public class Sesion implements Serializable {
     
     
 
-    public float getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
