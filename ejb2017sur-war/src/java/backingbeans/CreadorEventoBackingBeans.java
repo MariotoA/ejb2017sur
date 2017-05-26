@@ -7,6 +7,7 @@ package backingbeans;
 
 import entities.Evento;
 import entities.Sesion;
+import entities.Usuario;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,5 +90,15 @@ public class CreadorEventoBackingBeans {
         ses.setEventoCelebrado(evento);
         ses.setPrecio(precio);
         ses.setUrlCompraEntrada(urlCompraEntrada);
+    }
+    
+    public String creaEvento(Usuario autor){
+        this.evento.setCreador(autor);
+        this.evento.setPrioridad(0);
+        this.evento.setSesionesCelebradas(sesiones);
+        this.evento.getLocalizacion().getEventosCelebrados().add(evento);
+        sesiones.stream().forEach(p-> p.setEventoCelebrado(evento));
+        
+        return null;
     }
 }

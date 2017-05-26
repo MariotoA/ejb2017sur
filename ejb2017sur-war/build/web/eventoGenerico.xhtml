@@ -72,9 +72,9 @@
                     <p:tab id="Creacion_Datos_Evento" title="Evento">
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputLabel for="Nombre_Evento" value="Nombre:"/>
-                    <p:inputText id="Nombre_Evento" required="false"/>
+                    <p:inputText id="Nombre_Evento" value="#{creaEvento.evento.nombre}"required="false"/>
                     <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
-                    <p:inputText id="Imagen_Evento" required="false" />
+                    <p:inputText id="Imagen_Evento" value="#{creaEvento.evento.foto}" required="false" />
                     <p:spacer></p:spacer>
                     <p:selectOneMenu id="Selecciona_Sitio_Evento" value="Sitios" style="width:125px">
                         <f:selectItem itemLabel="Sitios" itemValue="Sitios" />
@@ -87,13 +87,13 @@
                         <p:column>tag</p:column>
                     </p:row>
                     <p:row>
-                        <p:column><p:inputText id="Url_Video"  required="false" /></p:column>
-                        <p:column><p:inputText id="Tag" required="false" /></p:column>
+                        <p:column><p:inputText id="Url_Video" value="#{creaEvento.evento.video}" required="false" /></p:column>
+                        <p:column><p:inputText id="Tag" value="#{creaEvento.evento.tag}" required="false" /></p:column>
                     </p:row>
                 </p:panelGrid>
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
-                    <h:inputTextarea id="Descripcion_Crear_Evento"></h:inputTextarea>
+                    <h:inputTextarea id="Descripcion_Crear_Evento" value="#{creaEvento.evento.descripcion}"></h:inputTextarea>
                 </h:panelGrid>
              
                 </p:tab>
@@ -103,16 +103,19 @@
                             <p:outputLabel value="Fecha comienzo"/>
                             <p:outputLabel value="Fecha fin"/>
                             
-                        <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm">
+                            <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm" value="#{creaEvento.fechaInicioSesion}">
                             </p:calendar>
-                        <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm">
+                            <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm" value="#{creaEvento.fechaFinSesion}">
                             </p:calendar>
                         </h:panelGrid>
-                        <p:inputNumber id="Precio"  placeholder="Precio sesion" required="false"/>
+                            <p:inputNumber id="Precio"  placeholder="Precio sesion" value="#{creaEvento.precio}" required="false"/>
                         <p:outputLabel for="Url_Entradas"/>
-                        <p:inputText id="Url_Entradas" required="false" />
+                        <p:inputText id="Url_Entradas" required="false" value="#{creaEvento.urlCompraEntrada}" />
                         <p:commandButton value="Añade sesión" actionListener="#{creaEvento.creaSesion()}"/>
                         </h:form>
+                    </p:tab>
+                    <p:tab id="ConfirmarCreaSesion" title="Confirmacion">
+                        <p:commandButton value="Crear" action="#{creaEvento.creaEvento()}"/>
                     </p:tab>
             </p:wizard>
              </p:dialog>
