@@ -68,16 +68,15 @@
         <h:form id="Crear_Evento">
             
             <p:dialog header="Crear evento" widgetVar="crearEv" resizable="true">
-                <p:wizard flowListener="#{creaEvento.onFlowProcess}">
-                    <p:tab id="Creacion_Datos_Evento" title="Evento">
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputLabel for="Nombre_Evento" value="Nombre:"/>
-                    <p:inputText id="Nombre_Evento" value="#{creaEvento.evento.nombre}"required="false"/>
+                    <p:inputText id="Nombre_Evento" value="#{creaEvento.evento.nombre}" required="false"/> 
+                        <p:message for="Nombre_Evento"/>
                     <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
                     <p:inputText id="Imagen_Evento" value="#{creaEvento.evento.foto}" required="false" />
                     <p:spacer></p:spacer>
-                    <p:selectOneMenu id="Selecciona_Sitio_Evento" value="Sitios" style="width:125px">
-                        <f:selectItem itemLabel="Sitios" itemValue="Sitios" />
+                    <p:selectOneMenu id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" style="width:125px" >
+                        <f:selectItem itemLabel="Sitios" itemValue="Sitios"  noSelectionOption="true"/>
                         <f:selectItems value="#{vistaEventoGenerico.sitios}"/>
                     </p:selectOneMenu>
                 </h:panelGrid>
@@ -96,9 +95,14 @@
                     <h:inputTextarea id="Descripcion_Crear_Evento" value="#{creaEvento.evento.descripcion}"></h:inputTextarea>
                 </h:panelGrid>
              
-                </p:tab>
-                    <p:tab id="Creacion_Datos_Sesiones" title="Sesiones">
-                        <h:form id="crea_sesion">
+                        
+                   
+                <p:commandButton value="Añadir sesiones" action="#{creaEvento.creaEvento(login.usuario)}"/>
+           
+             </p:dialog>
+        </h:form>
+      <!--  <h:form id="crea_sesion">
+            <p:dialog widgetVar="creaSes" header="creaSesiones">
                         <h:panelGrid columns="2" cellpadding="5">
                             <p:outputLabel value="Fecha comienzo"/>
                             <p:outputLabel value="Fecha fin"/>
@@ -106,21 +110,17 @@
                             <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm" value="#{creaEvento.fechaInicioSesion}">
                             </p:calendar>
                             <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm" value="#{creaEvento.fechaFinSesion}">
+                                
                             </p:calendar>
+                            <p:message for="fecha_Fin_Crea"/>
                         </h:panelGrid>
                             <p:inputNumber id="Precio"  placeholder="Precio sesion" value="#{creaEvento.precio}" required="false"/>
+                            <p:message for="Precio"/>
                         <p:outputLabel for="Url_Entradas"/>
                         <p:inputText id="Url_Entradas" required="false" value="#{creaEvento.urlCompraEntrada}" />
                         <p:commandButton value="Añade sesión" actionListener="#{creaEvento.creaSesion()}"/>
-                        </h:form>
-                    </p:tab>
-                    <p:tab id="ConfirmarCreaSesion" title="Confirmacion">
-                        <p:commandButton value="Crear" action="#{creaEvento.creaEvento()}"/>
-                    </p:tab>
-            </p:wizard>
-             </p:dialog>
-        </h:form>
-        
+                        </p:dialog>
+                        </h:form> -->
         
         
     </h:body>

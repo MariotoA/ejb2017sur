@@ -9,9 +9,9 @@ package exception;
  *
  * @author malex
  */
-public class NombreInvalidoException extends RegistroException {
+public class NombreInvalidoUsuarioException extends RegistroException {
 
-    public NombreInvalidoException() {
+    public NombreInvalidoUsuarioException() {
     }
     
 }

@@ -13,7 +13,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import exception.ContraseniaInvalidaException;
 import exception.CorreoInvalidoException;
-import exception.NombreInvalidoException;
+import exception.NombreInvalidoUsuarioException;
 import negocio.RegistroLocal;
 
 /**
@@ -67,7 +67,7 @@ public class RegistroBackingBeans {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"El correo introducido es invalido, debe seguir el formato "
                     + "palabra@palabra.dominio",null);
             FacesContext.getCurrentInstance().addMessage("Registro_datos:emailRegistro", fm);
-        }catch (NombreInvalidoException e) {
+        }catch (NombreInvalidoUsuarioException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"El nombre introducido es invalido",null);
             FacesContext.getCurrentInstance().addMessage("Registro_datos:nombreRegistro", fm);
         }catch (ContraseniaInvalidaException e) {

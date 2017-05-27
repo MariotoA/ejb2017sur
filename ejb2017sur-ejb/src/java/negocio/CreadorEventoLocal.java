@@ -7,6 +7,7 @@ package negocio;
 
 import entities.Evento;
 import entities.Sesion;
+import entities.Sitio;
 import exception.CreaEventoException;
 import java.util.List;
 import javax.ejb.Local;
@@ -19,5 +20,11 @@ import javax.ejb.Local;
 public interface CreadorEventoLocal {
 
     void creaEvento(Evento evento, List<Sesion> sesiones) throws CreaEventoException;
+
+    void añadeSesiones(List<Sesion> sesiones);
+
+    void mensajeError(Object parameter);
+
+    Sitio obtenSitioAPartirDeSuNombre(String nombreSitio);
     
 }

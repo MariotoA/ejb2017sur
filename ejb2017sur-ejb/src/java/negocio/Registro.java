@@ -5,7 +5,7 @@
  */
 package negocio;
 
-import exception.NombreInvalidoException;
+import exception.NombreInvalidoUsuarioException;
 import exception.RegistroException;
 import exception.ContraseniaInvalidaException;
 import exception.CorreoInvalidoException;
@@ -75,7 +75,7 @@ public class Registro implements RegistroLocal {
         List<String> correos = qCorreos.getResultList();
         
         if (us.getNombre()== null || us.getNombre().equals("") || nombres.contains(us.getNombre())) {
-            throw new NombreInvalidoException();
+            throw new NombreInvalidoUsuarioException();
         }
         
         if(us.getEmail() == null || us.getEmail().equals("") ||
