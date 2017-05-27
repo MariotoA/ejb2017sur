@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -21,6 +23,10 @@ import javax.persistence.OneToMany;
  * @author malex
  */
 @Entity
+@NamedQueries({
+    @NamedQuery( name="Sitio.FINDALL",query="SELECT i FROM Sitio i"),
+    @NamedQuery(name="Sitio.FINDSIMILARBYNAME", query="SELECT i.nombre FROM Sitio i WHERE i.validador IS NOT NULL AND (UPPER(i.nombre) LIKE concat('%',concat(UPPER(:nombre),'%'))) ")
+})
 public class Sitio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +57,7 @@ public class Sitio implements Serializable {
     @JoinColumn(nullable = false)
     private Usuario creador;
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     private Usuario validador;
     
     @OneToMany(mappedBy="localizacion")

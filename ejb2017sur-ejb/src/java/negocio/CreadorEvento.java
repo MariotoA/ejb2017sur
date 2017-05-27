@@ -58,6 +58,12 @@ public class CreadorEvento implements CreadorEventoLocal {
         Usuario autor = aux.stream().findFirst().orElse(null);
         evento.setCreador(autor);
         evento.setPublicaciones(new ArrayList<>());
+        evento.setLocalizacion(this.obtenSitioAPartirDeSuNombre(evento.getLocalizacion().getNombre()));
+        if (!autor.getRol().equals(Usuario.USUARIO)) {
+            evento.setValidador(autor);
+        } else {
+            evento.setValidador(null);
+        }
     }
 
     @Override
@@ -76,6 +82,11 @@ public class CreadorEvento implements CreadorEventoLocal {
         Query q = em.createQuery("SELECT i FROM Sitio i WHERE i.nombre = :nombre", Sitio.class);
         List<Sitio> aux = q.setParameter("nombre", nombreSitio).getResultList();
         return aux.stream().findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Sitio> getAllSitios() {
+        return em.createNamedQuery("Sitio.FINDALL",Sitio.class).getResultList();
     }
     
     

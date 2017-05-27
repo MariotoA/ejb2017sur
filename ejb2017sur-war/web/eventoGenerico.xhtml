@@ -75,10 +75,14 @@
                     <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
                     <p:inputText id="Imagen_Evento" value="#{creaEvento.evento.foto}" required="false" />
                     <p:spacer></p:spacer>
-                    <p:selectOneMenu id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" style="width:125px" >
+                   <!-- <p:selectOneMenu id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" style="width:125px" >
                         <f:selectItem itemLabel="Sitios" itemValue="Sitios"  noSelectionOption="true"/>
-                        <f:selectItems value="#{vistaEventoGenerico.sitios}"/>
-                    </p:selectOneMenu>
+                        <f:selectItems value="lol"/> 
+                    </p:selectOneMenu>-->
+                    <p:autoComplete id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" 
+                                    completeMethod="#{creaEvento.completaNombreEvento}" var="sugerencia"
+                                    itemLabel="#{sugerencia}" itemValue="#{sugerencia}" forceSelection="true"/>
+                    
                 </h:panelGrid>
                 <p:panelGrid>
                     <p:row>
@@ -93,13 +97,60 @@
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
                     <h:inputTextarea id="Descripcion_Crear_Evento" value="#{creaEvento.evento.descripcion}"></h:inputTextarea>
-                </h:panelGrid>
-             
-                        
-                   
-                <p:commandButton value="Añadir sesiones" action="#{creaEvento.creaEvento(login.usuario)}"/>
+                </h:panelGrid> 
+                <p:commandButton value="Añadir evento" action="#{creaEvento.creaEvento(login.usuario)}" ajax="false"/>
            
              </p:dialog>
+        </h:form>
+        
+        
+        
+        <h:form id="Crea_Sitios">
+            <p:dialog widgetVar="crearSit">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Nombre_Sitio" value="Nombre:" />
+                    <p:inputText id="Nombre_Sitio" value="#{creaSitio.sitio.nombre}" required="true" />
+                    <p:message for="Nombre_Sitio" />
+                    <h:outputLabel for="Imagen_Sitio" value="Url imagen:" />
+                    <p:inputText id="Imagen_Sitio" value="#{creaSitio.sitio.foto}" required="false" />
+                </h:panelGrid>
+                
+                <p:panelGrid>
+                    <p:row>
+                        <p:column><h:outputLabel for="Pais_Sitio" value="Pais:" /></p:column>
+                        <p:column><h:outputLabel for="Comunidad_Sitio" value="C.A.:" /></p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Pais_Sitio" value="#{creaSitio.sitio.pais}" required="true" /></p:column>
+                        <p:message for="Pais_Sitio" />
+                        <p:column><p:inputText id="Comunidad_Sitio" value="#{creaSitio.sitio.comunidadAutonoma}" required="true" /></p:column>
+                        <p:message for="Comunidad_Sitio" />
+                    </p:row>
+                    <p:row>
+                    <p:column><h:outputLabel for="Provincia_Sitio" value="Provincia:" /></p:column>
+                    <p:column><h:outputLabel for="Ciudad_Sitio" value="Ciudad:" /></p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Provincia_Sitio" value="#{creaSitio.sitio.provincia}" required="true" /></p:column>
+                        <p:message for="Provincia_Sitio" />
+                        <p:column><p:inputText id="Ciudad_Sitio" value="#{creaSitio.sitio.ciudad}" required="true" /></p:column>
+                        <p:message for="Ciudad_Sitio" />
+                    </p:row>
+                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="Direccion_Sitio" value="Direccion:" />
+                    <p:inputText id="Direccion_Sitio" value="#{creaSitio.sitio.direccion}" required="true" />
+                    <p:message for="Direccion_Sitio" />
+                    <h:outputLabel for="Url_Sitio" value="Url del sitio:" />
+                    <p:inputText id="Url_Sitio" value="#{creaSitio.sitio.url}" required="false" />
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Descripcion_Crear_Sitio" value="Descripcion:" />
+                    <h:inputTextarea id="Descripcion_Crear_Sitio" value="#{creaSitio.sitio.descripcion}" ></h:inputTextarea>
+                </h:panelGrid>
+                    <p:commandButton value="Enviar sitio" action="#{creaSitio.crearSitio(login.usuario)}" ajax="false"></p:commandButton>
+                </p:panelGrid>
+                
+            </p:dialog>
         </h:form>
       <!--  <h:form id="crea_sesion">
             <p:dialog widgetVar="creaSes" header="creaSesiones">
@@ -107,18 +158,18 @@
                             <p:outputLabel value="Fecha comienzo"/>
                             <p:outputLabel value="Fecha fin"/>
                             
-                            <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm" value="#{creaEvento.fechaInicioSesion}">
+                            <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm" value="j">
                             </p:calendar>
-                            <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm" value="#{creaEvento.fechaFinSesion}">
+                            <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm" value="j">
                                 
                             </p:calendar>
                             <p:message for="fecha_Fin_Crea"/>
                         </h:panelGrid>
-                            <p:inputNumber id="Precio"  placeholder="Precio sesion" value="#{creaEvento.precio}" required="false"/>
+                            <p:inputNumber id="Precio"  placeholder="Precio sesion" value="j" required="false"/>
                             <p:message for="Precio"/>
                         <p:outputLabel for="Url_Entradas"/>
-                        <p:inputText id="Url_Entradas" required="false" value="#{creaEvento.urlCompraEntrada}" />
-                        <p:commandButton value="Añade sesión" actionListener="#{creaEvento.creaSesion()}"/>
+                        <p:inputText id="Url_Entradas" required="false" value="j" />
+                        <p:commandButton value="Añade sesión" actionListener="j"/>
                         </p:dialog>
                         </h:form> -->
         

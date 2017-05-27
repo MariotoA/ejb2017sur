@@ -15,13 +15,14 @@ import exception.PrecioEntradasException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import negocio.BuscadorLocal;
 import negocio.CreadorEventoLocal;
-import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -31,17 +32,14 @@ import org.primefaces.event.FlowEvent;
 @RequestScoped
 public class CreadorEventoBackingBeans {
     private Evento evento;
-    private List<Sesion> sesiones;
-    private Date fechaInicioSesion;
-    private Date fechaFinSesion;
-    private String urlCompraEntrada;
-    private Double precio;
+    private String nombreSitio;
     @EJB
     private CreadorEventoLocal creador;
+    @EJB
+    private BuscadorLocal buscador;
     
     public CreadorEventoBackingBeans() {
         evento = new Evento();
-        sesiones = new ArrayList<>();
     }
 
     public Evento getEvento() {
@@ -52,69 +50,29 @@ public class CreadorEventoBackingBeans {
         this.evento = evento;
     }
 
-    public Date getFechaInicioSesion() {
-        return fechaInicioSesion;
-    }
-
-    public void setFechaInicioSesion(Date fechaInicioSesion) {
-        this.fechaInicioSesion = fechaInicioSesion;
-    }
-
-    public Date getFechaFinSesion() {
-        return fechaFinSesion;
-    }
-
-    public void setFechaFinSesion(Date fechaFinSesion) {
-        this.fechaFinSesion = fechaFinSesion;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public String onFlowProcess(FlowEvent event) {
-        return event.getNewStep();
-    }
-
-    public String getUrlCompraEntrada() {
-        return urlCompraEntrada;
-    }
-
-    public void setUrlCompraEntrada(String urlCompraEntrada) {
-        this.urlCompraEntrada = urlCompraEntrada;
-    }
-
-    public Sitio getNombreSitio() {
-        return this.evento.getLocalizacion();
+   
+    public String getNombreSitio() {
+        return this.nombreSitio;
     }
 
     public void setNombreSitio(String nombreSitio) {
-        this.evento.setLocalizacion(this.creador.obtenSitioAPartirDeSuNombre(nombreSitio));
+        this.nombreSitio = nombreSitio;
     }
     
-    public void creaSesion() {
-        Sesion ses = new Sesion();
-        ses.setId(Long.MIN_VALUE);
-        ses.setFechaInicio(fechaInicioSesion);
-        ses.setFechaFin(fechaFinSesion);
-        ses.setEventoCelebrado(evento);
-        ses.setPrecio(precio);
-        ses.setUrlCompraEntrada(urlCompraEntrada);
-        sesiones.add(ses);
+    public List<String> completaNombreEvento(String nombreSitio) {
+        return this.buscador.buscaSitiosConNombresParecidos(nombreSitio);
     }
     
     public String creaEvento(Usuario autor){
         try {
+        Sitio sit = new Sitio();
+        sit.setNombre(nombreSitio);
         this.evento.setCreador(autor);
         this.evento.setPrioridad(0);
-        this.evento.setSesionesCelebradas(sesiones);
-        this.evento.getLocalizacion().getEventosCelebrados().add(evento);
+        this.evento.setLocalizacion(sit);
+        //this.evento.getLocalizacion().getEventosCelebrados().add(evento);
         //sesiones.stream().forEach(p-> p.setEventoCelebrado(evento));
-        this.creador.creaEvento(evento,sesiones);
+        this.creador.creaEvento(evento,null);
         } catch (NombreInvalidoEventoException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"El nombre de evento es obligatorio.",null);
             FacesContext.getCurrentInstance().addMessage("Crear_Evento:Nombre_Evento", fm);

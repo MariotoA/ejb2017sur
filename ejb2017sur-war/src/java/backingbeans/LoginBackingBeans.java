@@ -23,10 +23,6 @@ import negocio.LoginLocal;
 @SessionScoped
 public class LoginBackingBeans {
     
-    private final static String ADMINISTRADOR="a";
-    public final static String USUARIO="USUARIO";
-    public final static String PERIODISTA="PERIODISTA";
-    public final static String SUPERUSUARIO="SUPERUSUARIO";
     private String nombreOCorreo;
     private String contrasena;
     private Usuario usuario;
@@ -82,7 +78,7 @@ public class LoginBackingBeans {
     }
     
     public boolean isPeriodista() {
-        return this.isLogged()&&usuario.getRol().equals(PERIODISTA);
+        return this.isLogged()&&usuario.getRol().equals(Usuario.PERIODISTA);
     }
     
     public synchronized String logout() {

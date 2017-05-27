@@ -26,5 +26,7 @@ public interface CreadorEventoLocal {
     void mensajeError(Object parameter);
 
     Sitio obtenSitioAPartirDeSuNombre(String nombreSitio);
+
+    List<Sitio> getAllSitios();
     
 }

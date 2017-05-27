@@ -45,7 +45,7 @@ public class Evento implements Serializable {
     @JoinColumn(nullable = false)
     private Usuario creador;
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     private Usuario validador;
     @ManyToOne
     @JoinColumn(nullable = false)
