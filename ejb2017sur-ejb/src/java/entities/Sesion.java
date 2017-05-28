@@ -15,15 +15,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 /**
  *
  * @author malex
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Sesion.FINDALLWITHEACHEVENTO", 
+            query="SELECT i,j FROM Sesion i JOIN i.eventoCelebrado j WHERE j.validador IS NOT NULL"),
+})
 public class Sesion implements Serializable {
 
     private static final long serialVersionUID = 1L;

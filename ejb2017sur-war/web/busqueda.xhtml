@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        
+        <h:form id="barra_busqueda">
+        <p:menubar>
+                <p:menuitem value="Inicio" url="eventoGenerico.xhtml" />
+                <p:menuitem value="Busqueda avanzada" url="busquedaAvanzada.xhtml"/>
+                
+                <f:facet name="options">
+                    <p:inputText id="buscar" style="margin-right:10px" placeholder="Buscar"
+                                 value="#{cadenaBusqueda.cadena}">
+                    </p:inputText>
+                </f:facet>
+        </p:menubar>
+            </h:form>
+        <h:panelGrid columns="2">
+            <h:form id="eventos">
+                <p:dataScroller id="busqueda_eventos" value="#{buscadorEvento.getEventosSegunCadena(cadenaBusqueda.cadena)}" var="vistaEvento" chunkSize="5">
+                <p:panelGrid columns="3" >
+                    <p:graphicImage width="200" height="200" url="#{vistaEvento.evento.foto}"  /> 
+                    <f:facet name="header" >
+                        <p:commandLink value="#{vistaEvento.evento.nombre}" ajax="false"/>
+                    </f:facet>
+
+                    <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <h:outputText value="Tag:" />
+                    <h:outputText value="#{vistaEvento.evento.tag}" style="font-weight: bold"/>
+                    
+                    <h:outputText value="Fecha Inicio:" />
+                    <h:outputText value="#{vistaEvento.sesion.fechaInicio}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Fecha Fin:" />
+                    <h:outputText value="#{vistaEvento.sesion.fechaFin}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Descripción:" />
+                    <h:outputText value="#{vistaEvento.evento.descripcion}" style="font-weight: bold"/>
+                </h:panelGrid>
+                        
+            </p:outputPanel>
+                </p:panelGrid>
+                </p:dataScroller>
+        </h:form>
+            <h:form id="sitios">
+                <p:dataScroller id="busqueda_sitios" value="#{buscadorSitio.buscasSitiosDeAcuerdoAUnaPalabra(cadenaBusqueda.cadena)}" var="sitio" chunkSize="5">
+                <p:panelGrid columns="3" >
+                    <p:graphicImage width="200" height="200" url="#{sitio.foto}"  /> 
+                    <f:facet name="header" >
+                        <p:commandLink value="#{sitio.nombre}" ajax="false"/>
+                    </f:facet>
+
+                    <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <h:outputText value="Provincia:" />
+                    <h:outputText value="#{sitio.provincia}" style="font-weight: bold"/>
+                    
+                    <h:outputText value="Ciudad:" />
+                    <h:outputText value="#{sitio.ciudad}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Dirección:" />
+                    <h:outputText value="#{sitio.direccion}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Descripción:" />
+                    <h:outputText value="#{sitio.descripcion}" style="font-weight: bold"/>
+                </h:panelGrid>
+                        
+            </p:outputPanel>
+                </p:panelGrid>
+                </p:dataScroller>
+        </h:form>
+        </h:panelGrid>
+    </h:body>
+</html>
+

@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -16,6 +17,7 @@ public abstract class Usuario_ {
 	public static volatile SingularAttribute<Usuario, String> nombre;
 	public static volatile SingularAttribute<Usuario, String> rol;
 	public static volatile SingularAttribute<Usuario, String> pais;
+	public static volatile SingularAttribute<Usuario, Date> fechaIngreso;
 	public static volatile SingularAttribute<Usuario, String> password;
 	public static volatile SingularAttribute<Usuario, String> comunidadAutonoma;
 	public static volatile ListAttribute<Usuario, Publicacion> publicacionesCreadas;

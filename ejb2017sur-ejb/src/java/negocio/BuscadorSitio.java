@@ -5,6 +5,7 @@
  */
 package negocio;
 
+import entities.Sitio;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -15,16 +16,16 @@ import javax.persistence.PersistenceContext;
  * @author malex
  */
 @Stateless
-public class Buscador implements BuscadorLocal {
+public class BuscadorSitio implements BuscadorSitioLocal {
 
     
     @PersistenceContext(unitName="ejb2017sur-ejbPU")
     private EntityManager em;
 
     @Override
-    public List<String> buscaSitiosConNombresParecidos(String nombreSitio) {
-        return em.createNamedQuery("Sitio.FINDSIMILARBYNAME", String.class)
-                .setParameter("nombre", nombreSitio).getResultList();
+    public List<Sitio> buscaSitiosDeAcuerdoAUnaPalabra(String palabra) {
+        return em.createNamedQuery("Sitio.FINSIMILARBYWORD",Sitio.class)
+                .setParameter("palabra", palabra).getResultList();
     }
     
     

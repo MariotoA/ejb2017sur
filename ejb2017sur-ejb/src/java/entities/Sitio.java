@@ -25,7 +25,8 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
     @NamedQuery( name="Sitio.FINDALL",query="SELECT i FROM Sitio i"),
-    @NamedQuery(name="Sitio.FINDSIMILARBYNAME", query="SELECT i.nombre FROM Sitio i WHERE i.validador IS NOT NULL AND (UPPER(i.nombre) LIKE concat('%',concat(UPPER(:nombre),'%'))) ")
+    @NamedQuery(name="Sitio.FINDSIMILARBYNAME", query="SELECT i.nombre FROM Sitio i WHERE i.validador IS NOT NULL AND (UPPER(i.nombre) LIKE concat('%',concat(UPPER(:nombre),'%'))) "),
+    @NamedQuery(name="Sitio.FINSIMILARBYWORD",query="SELECT s FROM Sitio s WHERE s.validador IS NOT NULL AND( UPPER(s.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')) OR  UPPER(s.direccion) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')))")
 })
 public class Sitio implements Serializable {
 

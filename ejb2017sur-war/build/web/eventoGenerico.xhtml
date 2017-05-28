@@ -23,6 +23,7 @@
                 <c:choose>
                     <c:when test="#{login.periodista}">
                         <p:menuitem value="Validaciones" url="eventoGenerico.xhtml" />
+                        <p:menuitem value="Permisos" url="permisos.xhtml" />
                     </c:when>
                 </c:choose>
                 <c:choose>
@@ -34,7 +35,7 @@
                     </c:when>
                 </c:choose>
                     <f:facet name="options">
-                        <p:inputText id="buscar" style="margin-right:10px" placeholder="Buscar" onkeypress="if (event.which === 13 ||event.keyCode===13){ window.location.replace('busqueda.xhtml');return false;}"/>
+                        <p:inputText id="buscar" style="margin-right:10px" value="#{cadenaBusqueda.cadena}" placeholder="Buscar" onkeypress="if (event.which === 13 ||event.keyCode===13){ window.location.replace('busqueda.xhtml');return false;}"/>
                         <c:choose>
                             <c:when test="#{login.logged}">
                                 <p:commandLink type="button" value="Perfil" action="perfil.xhtml" ajax="false" />
@@ -75,13 +76,9 @@
                     <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
                     <p:inputText id="Imagen_Evento" value="#{creaEvento.evento.foto}" required="false" />
                     <p:spacer></p:spacer>
-                   <!-- <p:selectOneMenu id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" style="width:125px" >
-                        <f:selectItem itemLabel="Sitios" itemValue="Sitios"  noSelectionOption="true"/>
-                        <f:selectItems value="lol"/> 
-                    </p:selectOneMenu>-->
                     <p:autoComplete id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" 
                                     completeMethod="#{creaEvento.completaNombreEvento}" var="sugerencia"
-                                    itemLabel="#{sugerencia}" itemValue="#{sugerencia}" forceSelection="true"/>
+                                    itemLabel="#{sugerencia}" itemValue="#{sugerencia}" forceSelection="true" required="true" />
                     
                 </h:panelGrid>
                 <p:panelGrid>
@@ -152,6 +149,8 @@
                 
             </p:dialog>
         </h:form>
+        
+        
       <!--  <h:form id="crea_sesion">
             <p:dialog widgetVar="creaSes" header="creaSesiones">
                         <h:panelGrid columns="2" cellpadding="5">

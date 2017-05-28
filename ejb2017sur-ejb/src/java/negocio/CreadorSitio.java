@@ -7,6 +7,7 @@ package negocio;
 
 import entities.Sitio;
 import entities.Usuario;
+import exception.CreaSitioException;
 import exception.NombreInvalidoSitioException;
 import exception.SitioRepetidoException;
 import java.util.List;
@@ -26,7 +27,7 @@ public class CreadorSitio implements CreadorSitioLocal {
     private EntityManager em;
 
     @Override
-    public void creaSitio(Sitio sitio) {
+    public void creaSitio(Sitio sitio) throws CreaSitioException {
         validaSitio(sitio);
         arreglaSitio(sitio);
         em.merge(sitio);

@@ -14,8 +14,8 @@ import javax.ejb.Local;
  * @author malex
  */
 @Local
-public interface BuscadorLocal {
+public interface BuscadorSitioLocal {
 
-    List<String> buscaSitiosConNombresParecidos(String nombreSitio);
+    List<Sitio> buscaSitiosDeAcuerdoAUnaPalabra(String palabra);
     
 }

@@ -25,7 +25,11 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries ({
     @NamedQuery(name="Evento.FINDEVENTSBYNAME",
-            query="SELECT e FROM Evento e WHERE e.nombre = :nombre")
+            query="SELECT e FROM Evento e WHERE e.nombre = :nombre"),
+    @NamedQuery(name="Evento.FINDSIMILARANDETERNAL",
+            query="SELECT j FROM Evento j WHERE j.validador IS NOT NULL AND j.id NOT IN (SELECT e.id FROM Sesion s join s.eventoCelebrado e) AND (UPPER(j.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')))"),
+    @NamedQuery(name="Evento.FINDSIMILARTOWORD", 
+            query="SELECT j,i FROM Sesion i JOIN i.eventoCelebrado j WHERE j.validador IS NOT NULL AND (UPPER(j.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.descripcion) LIKE concat('%',concat(UPPER(:palabra),'%')) )")
 })
 public class Evento implements Serializable {
 

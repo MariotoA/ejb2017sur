@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -23,14 +26,19 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
     @NamedQuery(name="Usuario.FINDBYNAME",
-            query="SELECT i FROM Usuario i WHERE i.nombre = :nombre")
+            query="SELECT i FROM Usuario i WHERE i.nombre = :nombre"),
+    @NamedQuery(name="Usuario.FINDSIMILARBYNAME",
+            query="SELECT i.nombre FROM Usuario i WHERE UPPER(i.nombre) LIKE concat('%',concat(UPPER(:nombre),'%')) "),
+    @NamedQuery(name="Usuario.FINDALLORDEREDBYINGRESO",
+            query="SELECT i FROM Usuario i ORDER BY i.fechaIngreso DESC"),
+
 })
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     public static final String USUARIO = "USUARIO";
     public static final String PERIODISTA = "PERIODISTA";
-    private static final String ADMINISTRADOR = "a";
+    public static final String ADMINISTRADOR = "admin";
     public static final String SUPERUSUARIO = "SUPERUSUARIO";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,6 +55,9 @@ public class Usuario implements Serializable {
     private String ciudad;
     @Column(nullable = false)
     private String rol;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaIngreso;
     private boolean recibirNotifiaciones;
     
     /*Relaciones con evento.*/
@@ -216,6 +227,14 @@ public class Usuario implements Serializable {
 
     public void setInteresesReflejados(List<Interes> interesesReflejados) {
         this.interesesReflejados = interesesReflejados;
+    }
+
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
     }
 
     

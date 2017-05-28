@@ -1,4 +1,6 @@
+entities/Sesion_.java
 entities/Sitio_.java
+entities/Usuario_.java
 entities/Publicacion_.java
 entities/Evento_.java
 entities/Interes_.java

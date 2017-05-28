@@ -5,8 +5,7 @@
  */
 package negocio;
 
-import entities.Sitio;
-import exception.CreaSitioException;
+import entities.Usuario;
 import javax.ejb.Local;
 
 /**
@@ -14,7 +13,9 @@ import javax.ejb.Local;
  * @author malex
  */
 @Local
-public interface CreadorSitioLocal {
+public interface ModificadorUsuarioLocal {
 
-    void creaSitio(Sitio sitio) throws CreaSitioException;
+    void refrescarUsuario(Usuario usuario);
+    void message(String msh);
+    
 }

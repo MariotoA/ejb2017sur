@@ -21,8 +21,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import negocio.BuscadorLocal;
 import negocio.CreadorEventoLocal;
+import negocio.BuscadorEventoLocal;
 
 /**
  *
@@ -36,7 +36,7 @@ public class CreadorEventoBackingBeans {
     @EJB
     private CreadorEventoLocal creador;
     @EJB
-    private BuscadorLocal buscador;
+    private BuscadorEventoLocal buscador;
     
     public CreadorEventoBackingBeans() {
         evento = new Evento();

@@ -10,6 +10,7 @@ import exception.RegistroException;
 import exception.ContraseniaInvalidaException;
 import exception.CorreoInvalidoException;
 import entities.Usuario;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.ejb.Stateless;
@@ -22,11 +23,6 @@ import javax.persistence.Query;
  */
 @Stateless
 public class Registro implements RegistroLocal {
-    
-    private final static String ADMINISTRADOR="a";
-    public final static String USUARIO="USUARIO";
-    public final static String PERIODISTA="PERIODISTA";
-    public final static String SUPERUSUARIO="SUPERUSUARIO";
     
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
@@ -42,11 +38,13 @@ public class Registro implements RegistroLocal {
         }
         this.compruebaValidezRegistro(u);
         
-        u.setRol(USUARIO);
+        u.setRol(Usuario.USUARIO);
+        u.setFechaIngreso(new Date());
         em.merge(u);
         System.out.println(this.generarCadenaAleatoria());
         
     }
+    
     
     
     private String generarCadenaAleatoria() {

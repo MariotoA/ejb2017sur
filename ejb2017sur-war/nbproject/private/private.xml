@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-war/web/eventoGenerico.xhtml</file>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-war/src/java/backingbeans/CreadorEventoBackingBeans.java</file>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-war/src/java/backingbeans/CreadorSitioBackingBeans.java</file>
+            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-war/web/permisos.xhtml</file>
+            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-war/src/java/backingbeans/PermisiosUsuariosBackingBeans.java</file>
             <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-war/src/java/backingbeans/LoginBackingBeans.java</file>
         </group>
     </open-files>

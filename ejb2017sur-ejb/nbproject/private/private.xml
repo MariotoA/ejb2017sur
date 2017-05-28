@@ -3,11 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/negocio/CreadorSitio.java</file>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/negocio/CreadorSitioLocal.java</file>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/negocio/CreadorEvento.java</file>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/entities/Sitio.java</file>
-            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/negocio/CreadorEventoLocal.java</file>
+            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/negocio/ModificadorUsuarioLocal.java</file>
+            <file>file:/C:/Users/malex/Documents/SII/ejb2017sur/ejb2017sur-ejb/src/java/negocio/ModificadorUsuario.java</file>
         </group>
     </open-files>
 </project-private>
