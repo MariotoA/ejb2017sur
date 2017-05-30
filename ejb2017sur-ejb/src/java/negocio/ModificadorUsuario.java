@@ -26,7 +26,7 @@ public class ModificadorUsuario implements ModificadorUsuarioLocal {
     }
 
     @Override
-    public void message(String msh) {
+    public void message(Object msh) {
         System.out.println(msh);
     }
     

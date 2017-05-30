@@ -29,15 +29,27 @@ import javax.persistence.OneToMany;
     @NamedQuery(name="Evento.FINDSIMILARANDETERNAL",
             query="SELECT j FROM Evento j WHERE j.validador IS NOT NULL AND j.id NOT IN (SELECT e.id FROM Sesion s join s.eventoCelebrado e) AND (UPPER(j.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')))"),
     @NamedQuery(name="Evento.FINDSIMILARTOWORD", 
-            query="SELECT j,i FROM Sesion i JOIN i.eventoCelebrado j WHERE j.validador IS NOT NULL AND (UPPER(j.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.descripcion) LIKE concat('%',concat(UPPER(:palabra),'%')) )")
-})
+            query="SELECT i,j FROM Sesion i JOIN i.eventoCelebrado j WHERE j.validador IS NOT NULL AND (UPPER(j.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.descripcion) LIKE concat('%',concat(UPPER(:palabra),'%')) )"),
+    @NamedQuery(name="Evento.FINDTOUSER",query="SELECT ses,ev FROM Sesion ses join ses.eventoCelebrado ev join ev.localizacion sit WHERE ev.validador IS NOT NULL AND ev.tag IN (SELECT DISTINCT e.tag FROM Interes i join i.interesado u join i.sesionReferida s join s.eventoCelebrado e WHERE u.id = :usuario_id AND i.noMeGusta <> TRUE) ORDER BY ev.prioridad DESC")
+   })
+
+//SELECT INTERES.*,EVENTO.*, SESION.*,USUARIO.* FROM INTERES JOIN USUARIO ON (INTERES.interesado_id=USUArIO.id) JOIN SESION ON (INTERES.`sesionReferida_id`=SESION.id) JOIN EVENTO ON (SESION.`eventoCelebrado_id` = EVENTO.id) WHERE INTERES.`noMeGusta` IS NOT TRUE;
+
+
+
+
+
+// EVENTOS VALIDADOS
+        // EVENTOS TAGS EVENTOS QUE EL USUARIO FRECUENTA
+        // CIUDAD > PROVINCIA > COMUNIDAD > PAIS  <<<<------- FALTA
+        // PRIORIDAD
 public class Evento implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-@Column(nullable=false)
+@Column(nullable=false,unique=true)
     private String nombre;
     private String descripcion;
     private String tag;

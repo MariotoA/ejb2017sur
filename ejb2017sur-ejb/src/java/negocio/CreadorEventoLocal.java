@@ -19,9 +19,8 @@ import javax.ejb.Local;
 @Local
 public interface CreadorEventoLocal {
 
-    void creaEvento(Evento evento, List<Sesion> sesiones) throws CreaEventoException;
+    Evento creaEvento(Evento evento, List<Sesion> sesiones) throws CreaEventoException;
 
-    void añadeSesiones(List<Sesion> sesiones);
 
     void mensajeError(Object parameter);
 

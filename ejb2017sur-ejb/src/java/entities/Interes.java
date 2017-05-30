@@ -24,19 +24,19 @@ public class Interes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-private boolean meGusta;
-    private boolean noMeGusta;
-    private boolean acudir;
+    private Boolean meGusta;
+    private Boolean noMeGusta;
+    private Boolean acudir;
     
     
     /*interes--usuario*/
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false,unique=true)
     private Usuario interesado;
     
     /*interes--Sesion*/
     @ManyToOne  
-    @JoinColumn(nullable = false) 
+    @JoinColumn(nullable = false,unique=true) 
     private Sesion sesionReferida;
 
     

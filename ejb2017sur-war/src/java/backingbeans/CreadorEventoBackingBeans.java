@@ -21,6 +21,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import jointables.VistaEvento;
 import negocio.CreadorEventoLocal;
 import negocio.BuscadorEventoLocal;
 
@@ -33,6 +34,8 @@ import negocio.BuscadorEventoLocal;
 public class CreadorEventoBackingBeans {
     private Evento evento;
     private String nombreSitio;
+    private Long idEventoCreado;
+    private Boolean eternal;
     @EJB
     private CreadorEventoLocal creador;
     @EJB
@@ -62,16 +65,31 @@ public class CreadorEventoBackingBeans {
     public List<String> completaNombreEvento(String nombreSitio) {
         return this.buscador.buscaSitiosConNombresParecidos(nombreSitio);
     }
+
+    public Long getIdEventoCreado() {
+        return idEventoCreado;
+    }
+
+    public void setIdEventoCreado(Long idEventoCreado) {
+        this.idEventoCreado = idEventoCreado;
+    }
+
+    public Boolean getEternal() {
+        return eternal;
+    }
+
+    public void setEternal(Boolean eternal) {
+        this.eternal = eternal;
+    }
     
     public String creaEvento(Usuario autor){
+        String next = null;
         try {
         Sitio sit = new Sitio();
         sit.setNombre(nombreSitio);
         this.evento.setCreador(autor);
         this.evento.setPrioridad(0);
         this.evento.setLocalizacion(sit);
-        //this.evento.getLocalizacion().getEventosCelebrados().add(evento);
-        //sesiones.stream().forEach(p-> p.setEventoCelebrado(evento));
         this.creador.creaEvento(evento,null);
         } catch (NombreInvalidoEventoException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"El nombre de evento es obligatorio.",null);
@@ -85,6 +103,6 @@ public class CreadorEventoBackingBeans {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Las fechas intrducidas son imposibles.",null);
             FacesContext.getCurrentInstance().addMessage("Creacion_Datos_Sesiones:fecha_Fin_Crea", fm);
         }
-        return null;
+        return next;
     }
 }

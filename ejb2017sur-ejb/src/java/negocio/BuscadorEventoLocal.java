@@ -28,5 +28,13 @@ public interface BuscadorEventoLocal {
     public List<Usuario> buscaUsuariosOrdenPorFechaIngreso();
 
     public List<VistaEvento> buscaEventosValidadosQueContenganPalabra(String cadena);
+
+    public List<VistaEvento> buscaEventosMostrablesAlUsuario();
+
+    public VistaEvento getSesionEventoPorId(Long id);
+
+    VistaEvento getEventoPorId(Long id);
+
+    public VistaEvento getEventoPorNombre(String get);
     
 }

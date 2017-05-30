@@ -15,6 +15,7 @@
             <p:menubar>
                 <p:menuitem value="Inicio" url="eventoGenerico.xhtml" />
                 <p:menuitem value="Sitios" url="sitioGenerico.xhtml" />
+                <p:menuitem value="Búsqueda" url="busqueda.xhtml"/>
                 <c:choose>
                 <c:when test="#{login.logged}">
                     <p:menuitem value="mis eventos" url="eventoGenerico.xhtml" />
@@ -35,10 +36,9 @@
                     </c:when>
                 </c:choose>
                     <f:facet name="options">
-                        <p:inputText id="buscar" style="margin-right:10px" value="#{cadenaBusqueda.cadena}" placeholder="Buscar" onkeypress="if (event.which === 13 ||event.keyCode===13){ window.location.replace('busqueda.xhtml');return false;}"/>
                         <c:choose>
                             <c:when test="#{login.logged}">
-                                <p:commandLink type="button" value="Perfil" action="perfil.xhtml" ajax="false" />
+                                <p:commandLink type="button" value="Perfil" action="#{perfil.creaPerfil(login.usuario)}" ajax="false" />
                                 <p:commandLink type="button" value="Salir" action="#{login.logout()}" ajax="false" />
                             </c:when>
                             <c:otherwise>
@@ -95,8 +95,9 @@
                     <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
                     <h:inputTextarea id="Descripcion_Crear_Evento" value="#{creaEvento.evento.descripcion}"></h:inputTextarea>
                 </h:panelGrid> 
-                <p:commandButton value="Añadir evento" action="#{creaEvento.creaEvento(login.usuario)}" ajax="false"/>
-           
+                <p:commandButton value="Añadir evento" action="#{creaEvento.creaEvento(login.usuario)}" ajax="false"> 
+                </p:commandButton>
+                
              </p:dialog>
         </h:form>
         
@@ -151,28 +152,51 @@
         </h:form>
         
         
-      <!--  <h:form id="crea_sesion">
-            <p:dialog widgetVar="creaSes" header="creaSesiones">
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <p:outputLabel value="Fecha comienzo"/>
-                            <p:outputLabel value="Fecha fin"/>
-                            
-                            <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm" value="j">
-                            </p:calendar>
-                            <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm" value="j">
-                                
-                            </p:calendar>
-                            <p:message for="fecha_Fin_Crea"/>
-                        </h:panelGrid>
-                            <p:inputNumber id="Precio"  placeholder="Precio sesion" value="j" required="false"/>
-                            <p:message for="Precio"/>
-                        <p:outputLabel for="Url_Entradas"/>
-                        <p:inputText id="Url_Entradas" required="false" value="j" />
-                        <p:commandButton value="Añade sesión" actionListener="j"/>
-                        </p:dialog>
-                        </h:form> -->
-        
-        
+      <p:panelGrid columns="3">
+          <p:row>
+          <p:column id="Anuncio_L">
+              <p:outputLabel value="ANUNCIO"/>
+          </p:column>
+          <p:column id = "COLUMNA_EVENTO">
+              <h:form id="EVENTOS_GENERICOS">
+              <p:dataScroller id="eventos" value="#{buscadorEvento.getEventosSegunUsuario(login.usuario)}" var="vistaEvento" chunkSize="5">
+                <p:panelGrid columns="3" >
+                    <p:graphicImage width="200" height="200" url="#{vistaEvento.evento.foto}"  /> 
+                    <f:facet name="header" >
+                        <h:link value="#{vistaEvento.evento.nombre}" outcome="eventoDetalle">
+                            <f:param name="id" value="#{vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{vistaEvento.eternal}"/>
+                        </h:link>
+                    </f:facet>
+
+                    <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <h:outputText value="Tag:" />
+                    <h:outputText value="#{vistaEvento.evento.tag}" style="font-weight: bold"/>
+                    
+                    <h:outputText value="Fecha Inicio:" />
+                    <h:outputText value="#{vistaEvento.sesion.fechaInicio}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Fecha Fin:" />
+                    <h:outputText value="#{vistaEvento.sesion.fechaFin}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Descripción:" />
+                    <h:outputText value="#{vistaEvento.evento.descripcion}" style="font-weight: bold"/>
+                </h:panelGrid>
+                    
+                        <!-- TODO-->
+            </p:outputPanel>
+                </p:panelGrid>
+                </p:dataScroller>
+                  </h:form>
+          </p:column>
+          <p:column id="Anuncio_R">
+              <p:outputLabel value="ANUNCIO"/>
+          </p:column>
+              </p:row>
+      </p:panelGrid>
+      
+      
     </h:body>
 </html>
 

@@ -29,7 +29,10 @@
                 <p:panelGrid columns="3" >
                     <p:graphicImage width="200" height="200" url="#{vistaEvento.evento.foto}"  /> 
                     <f:facet name="header" >
-                        <p:commandLink value="#{vistaEvento.evento.nombre}" ajax="false"/>
+                        <h:link value="#{vistaEvento.evento.nombre}" outcome="eventoDetalle">
+                            <f:param name="id" value="#{vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{vistaEvento.eternal}"/>
+                        </h:link>
                     </f:facet>
 
                     <p:outputPanel>

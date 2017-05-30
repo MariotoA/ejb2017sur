@@ -31,10 +31,11 @@ public class CreadorEvento implements CreadorEventoLocal {
     private EntityManager em;
 
     @Override
-    public void creaEvento(Evento evento, List<Sesion> sesiones) throws CreaEventoException {
+    public Evento creaEvento(Evento evento, List<Sesion> sesiones) throws CreaEventoException {
         compruebaEvento(evento);
         arreglaEvento(evento);
-        em.merge(evento);
+        
+        return em.merge(evento);
     }
     
     private void compruebaEvento(Evento evento) {
@@ -43,15 +44,7 @@ public class CreadorEvento implements CreadorEventoLocal {
         }
     }
 
-    private void compruebaSesion(Sesion p) {
-        if (p.getPrecio()!=null && p.getPrecio()<0) {
-            throw new PrecioEntradasException();
-        }
-        if(p.getFechaInicio().after(p.getFechaFin())) {
-            throw new FechaSesionException();
-        }
-    }
-
+   
     private void arreglaEvento(Evento evento) {
         Query q = em.createQuery("SELECT i FROM Usuario i WHERE i.nombre = :nombre", Usuario.class);
         List<Usuario> aux = q.setParameter("nombre", evento.getCreador().getNombre()).getResultList();
@@ -66,11 +59,6 @@ public class CreadorEvento implements CreadorEventoLocal {
         }
     }
 
-    @Override
-    public void añadeSesiones(List<Sesion> sesiones) {
-        sesiones.stream().forEach(p->compruebaSesion(p));
-        sesiones.stream().forEach(p->em.merge(p));
-    }
 
     @Override
     public void mensajeError(Object parameter) {

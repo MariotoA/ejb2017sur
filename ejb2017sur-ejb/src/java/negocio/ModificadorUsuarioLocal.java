@@ -16,6 +16,6 @@ import javax.ejb.Local;
 public interface ModificadorUsuarioLocal {
 
     void refrescarUsuario(Usuario usuario);
-    void message(String msh);
+    void message(Object msh);
     
 }

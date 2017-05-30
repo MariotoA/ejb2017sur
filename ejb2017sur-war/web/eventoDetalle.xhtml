@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <h:head>
+        <title>Evento</title>
+    </h:head>
+    <h:body>
+        <h:form id ="barra">  
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:menuitem value="Inicio" url="eventoGenerico.xhtml" />
+                <p:menuitem value="Sitios" url="sitioGenerico.xhtml" />
+                <p:menuitem value="Búsqueda" url="busqueda.xhtml"/>
+                <c:choose>
+                <c:when test="#{login.logged}">
+                    <p:menuitem value="mis eventos" url="eventoGenerico.xhtml" />
+                </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="#{login.periodista}">
+                        <p:menuitem value="Validaciones" url="eventoGenerico.xhtml" />
+                        <p:menuitem value="Permisos" url="permisos.xhtml" />
+                    </c:when>
+                </c:choose>
+                <c:choose>
+                    <c:when test="#{login.logged}">
+                    <p:submenu label=" + ">
+                        <p:menuitem value="Crear sitio" onclick="PF('crearSit').show();"/>
+                        <p:menuitem value="Crear evento" onclick="PF('crearEv').show();" />
+                    </p:submenu>
+                    </c:when>
+                </c:choose>
+                    <f:facet name="options">
+                        <c:choose>
+                            <c:when test="#{login.logged}">
+                                <p:commandLink type="button" value="Perfil" action="perfil.xhtml" ajax="false" />
+                                <p:commandLink type="button" value="Salir" action="#{login.logout()}" ajax="false" />
+                            </c:when>
+                            <c:otherwise>
+                                <p:commandButton type="button" value="Login" icon="ui-icon-extlink" onclick="PF('dlg').show();"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </f:facet>
+            </p:menubar>
+                <p:dialog header="Login" widgetVar="dlg" resizable="false">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="username" value="Nombre/Correo:" />
+                        <p:inputText id="username" value="#{login.nombreOCorreo}" required="false" label="username" />
+
+                        <h:outputLabel for="password" value="Contraseña:" />
+                        <p:password id="password" value="#{login.contrasena}" required="false" label="password" />
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Login" update="barra"  action="#{login.autenticar()}" ajax="false"/>
+                            <p:commandButton value="¿No tienes cuenta?" action="registro.xhtml"/>
+                        </f:facet>  
+                    </h:panelGrid>
+             </p:dialog>
+        </h:form> 
+        
+        
+        
+        
+        <h:form id="Crear_Evento">
+            
+            <p:dialog header="Crear evento" widgetVar="crearEv" resizable="true">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Nombre_Evento" value="Nombre:"/>
+                    <p:inputText id="Nombre_Evento" value="#{creaEvento.evento.nombre}" required="false"/> 
+                        <p:message for="Nombre_Evento"/>
+                    <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
+                    <p:inputText id="Imagen_Evento" value="#{creaEvento.evento.foto}" required="false" />
+                    <p:spacer></p:spacer>
+                    <p:autoComplete id="Selecciona_Sitio_Evento" value="#{creaEvento.nombreSitio}" 
+                                    completeMethod="#{creaEvento.completaNombreEvento}" var="sugerencia"
+                                    itemLabel="#{sugerencia}" itemValue="#{sugerencia}" forceSelection="true" required="true" />
+                    
+                </h:panelGrid>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>url video:</p:column>
+                        <p:column>tag</p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Url_Video" value="#{creaEvento.evento.video}" required="false" /></p:column>
+                        <p:column><p:inputText id="Tag" value="#{creaEvento.evento.tag}" required="false" /></p:column>
+                    </p:row>
+                </p:panelGrid>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
+                    <h:inputTextarea id="Descripcion_Crear_Evento" value="#{creaEvento.evento.descripcion}"></h:inputTextarea>
+                </h:panelGrid> 
+                <p:commandButton value="Añadir evento" action="#{creaEvento.creaEvento(login.usuario)}" ajax="false"/>
+           
+             </p:dialog>
+        </h:form>
+        
+        
+        
+        <h:form id="Crea_Sitios">
+            <p:dialog widgetVar="crearSit">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Nombre_Sitio" value="Nombre:" />
+                    <p:inputText id="Nombre_Sitio" value="#{creaSitio.sitio.nombre}" required="true" />
+                    <p:message for="Nombre_Sitio" />
+                    <h:outputLabel for="Imagen_Sitio" value="Url imagen:" />
+                    <p:inputText id="Imagen_Sitio" value="#{creaSitio.sitio.foto}" required="false" />
+                </h:panelGrid>
+                
+                <p:panelGrid>
+                    <p:row>
+                        <p:column><h:outputLabel for="Pais_Sitio" value="Pais:" /></p:column>
+                        <p:column><h:outputLabel for="Comunidad_Sitio" value="C.A.:" /></p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Pais_Sitio" value="#{creaSitio.sitio.pais}" required="true" /></p:column>
+                        <p:message for="Pais_Sitio" />
+                        <p:column><p:inputText id="Comunidad_Sitio" value="#{creaSitio.sitio.comunidadAutonoma}" required="true" /></p:column>
+                        <p:message for="Comunidad_Sitio" />
+                    </p:row>
+                    <p:row>
+                    <p:column><h:outputLabel for="Provincia_Sitio" value="Provincia:" /></p:column>
+                    <p:column><h:outputLabel for="Ciudad_Sitio" value="Ciudad:" /></p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Provincia_Sitio" value="#{creaSitio.sitio.provincia}" required="true" /></p:column>
+                        <p:message for="Provincia_Sitio" />
+                        <p:column><p:inputText id="Ciudad_Sitio" value="#{creaSitio.sitio.ciudad}" required="true" /></p:column>
+                        <p:message for="Ciudad_Sitio" />
+                    </p:row>
+                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="Direccion_Sitio" value="Direccion:" />
+                    <p:inputText id="Direccion_Sitio" value="#{creaSitio.sitio.direccion}" required="true" />
+                    <p:message for="Direccion_Sitio" />
+                    <h:outputLabel for="Url_Sitio" value="Url del sitio:" />
+                    <p:inputText id="Url_Sitio" value="#{creaSitio.sitio.url}" required="false" />
+                </h:panelGrid>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Descripcion_Crear_Sitio" value="Descripcion:" />
+                    <h:inputTextarea id="Descripcion_Crear_Sitio" value="#{creaSitio.sitio.descripcion}" ></h:inputTextarea>
+                </h:panelGrid>
+                    <p:commandButton value="Enviar sitio" action="#{creaSitio.crearSitio(login.usuario)}" ajax="false"></p:commandButton>
+                </p:panelGrid>
+                
+            </p:dialog>
+        </h:form>
+        
+        
+        <h:form id="eventos" >
+            <p:panelGrid columns="3" >
+                <p:graphicImage width="200" height="200" url="#{eventoSeleccionado.vistaEvento.evento.foto}"  /> 
+                    <f:facet name="header" >
+                        <h:link value="#{eventoSeleccionado.vistaEvento.evento.nombre}" outcome="eventoDetalle">
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                        </h:link>
+                    </f:facet>
+                    <p:outputPanel>
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <h:outputText value="Tag:" />
+                    <h:outputText value="#{eventoSeleccionado.vistaEvento.evento.tag}" style="font-weight: bold"/>
+                    
+                    <h:outputText value="Fecha Inicio:" />
+                    <h:outputText value="#{eventoSeleccionado.vistaEvento.sesion.fechaInicio}" style="font-weight: bold"/>
+ 
+                    <h:outputText value="Fecha Fin:" />
+                    <h:outputText value="#{eventoSeleccionado.vistaEvento.sesion.fechaFin}" style="font-weight: bold"/>
+                    <h:outputText value="Precio:" />
+                    <h:outputText value="#{eventoSeleccionado.vistaEvento.sesion.precio}" style="font-weight: bold"/>
+                    <h:outputText value="Ir a compra de entradas:" />
+                    <p:link href="#{eventoSeleccionado.vistaEvento.sesion.urlCompraEntrada}" value="Compra" style="font-weight: bold"/>
+                    <h:outputText value="Descripción:" />
+                    <h:outputText value="#{eventoSeleccionado.vistaEvento.evento.descripcion}" style="font-weight: bold"/>
+                    <h:outputText value="Vídeo:" />
+                    <p:link href="#{eventoSeleccionado.vistaEvento.evento.video}" value="Vídeo principal"></p:link>
+                    <c:choose>
+                        <c:when test="#{login.periodista}">
+                    <h:outputText value="Prioridad:" />
+                    <h:outputText value="#{eventoSeleccionado.vistaEvento.evento.prioridad}" />
+                        </c:when>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="#{login.puedeEditar()}">
+                            <p:commandButton value="Añadir Sesión" onclick="PF('creaSes').show();">
+                                <f:param value="#{eventoSeleccionado.vistaEvento.chooseId()}" name="id"></f:param>
+                                <f:param value="#{eventoSeleccionado.vistaEvento.eternal}" name="eterno"/>
+                            </p:commandButton>
+                        </c:when>
+                    </c:choose>
+                </h:panelGrid>
+            </p:outputPanel>
+                <c:choose>
+                        <c:when test="#{login.logged}">
+                            <h:panelGrid columns="1">
+                            <p:commandButton value="Like: 90%"></p:commandButton>
+                            <p:commandButton value="Dislike: 10%"></p:commandButton>
+                            <p:commandButton value="Voy a ir"></p:commandButton>
+                            </h:panelGrid>
+                        </c:when>
+                        <c:otherwise>
+                            
+                            <h:panelGrid columns="1">
+                            <h:outputText value="Like: 90%"></h:outputText>
+                            <h:outputText value="Dislike: 10%"></h:outputText>
+                            </h:panelGrid>
+                        </c:otherwise>
+                    </c:choose>
+                </p:panelGrid>
+        </h:form>
+        
+        <h:form id="crea_sesion">
+            <p:dialog widgetVar="creaSes" header="creaSesiones">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Fecha comienzo"/>
+                            <p:outputLabel value="Fecha fin"/>
+                            
+                            <p:calendar id="fecha_Inicio_Crea"  pattern="MM/dd/yyyy HH:mm" value="#{creaSesion.sesion.fechaInicio}">
+                            </p:calendar>
+                            <p:calendar id="fecha_Fin_Crea" pattern="MM/dd/yyyy HH:mm" value="#{creaSesion.sesion.fechaFin}">
+                                
+                            </p:calendar>
+                            <p:message for="fecha_Fin_Crea"/>
+                        </h:panelGrid>
+                <p:inputNumber id="Precio"  placeholder="Precio sesion" value="#{creaSesion.sesion.precio}" required="false"/>
+                            <p:message for="Precio"/>
+                        <p:outputLabel for="Url_Entradas"/>
+                        <p:inputText id="Url_Entradas" required="false" value="#{creaSesion.sesion.urlCompraEntrada}" />
+                        <p:commandButton value="Añade sesión" ajax="false" action="#{creaSesion.creaSesion()}">
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                        </p:commandButton>
+                        </p:dialog>
+                        </h:form>
+        
+        
+        <p class="anuncios">AQUI VAN LOS ANUNCIOS A
+            QUI VAN LOS ANUNCIOSS</p>
+    </h:body>
+</html>
+

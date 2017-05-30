@@ -6,6 +6,7 @@
 package negocio;
 
 import entities.Sitio;
+import entities.Usuario;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -17,5 +18,12 @@ import javax.ejb.Local;
 public interface BuscadorSitioLocal {
 
     List<Sitio> buscaSitiosDeAcuerdoAUnaPalabra(String palabra);
+
+    public List<Sitio> buscaSitiosDeAcuerdoAUnUsuario(Usuario us);
+
+    List<Sitio> buscaSitiosDeAcuerdoAUnUsuario();
+
+    public Sitio getSitioPorId(Long id);
+
     
 }

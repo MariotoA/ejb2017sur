@@ -28,6 +28,8 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name="Sesion.FINDALLWITHEACHEVENTO", 
             query="SELECT i,j FROM Sesion i JOIN i.eventoCelebrado j WHERE j.validador IS NOT NULL"),
+    @NamedQuery(name="Sesion.FINDBYIDWITHEVENTO",
+            query="SELECT ses,ev FROM Sesion ses JOIN ses.eventoCelebrado ev WHERE ses.id = :id")
 })
 public class Sesion implements Serializable {
 

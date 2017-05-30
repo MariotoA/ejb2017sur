@@ -6,9 +6,8 @@
 package backingbeans;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import negocio.ModificadorUsuarioLocal;
 
 /**
@@ -16,7 +15,7 @@ import negocio.ModificadorUsuarioLocal;
  * @author malex
  */
 @ManagedBean(name = "cadenaBusqueda")
-@ApplicationScoped
+@RequestScoped
 public class ParametroDeBusqueda {
     private String cadena;
     @EJB

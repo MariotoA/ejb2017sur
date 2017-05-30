@@ -6,6 +6,7 @@
 package backingbeans;
 
 import entities.Sitio;
+import entities.Usuario;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -25,5 +26,9 @@ public class BuscadorSitioBackingBeans {
     
     public List<Sitio> buscasSitiosDeAcuerdoAUnaPalabra(String cad) {
         return buscador.buscaSitiosDeAcuerdoAUnaPalabra(cad);
+    }
+    
+    public List<Sitio> buscaSitiosDeAcuerdoAUnUsuario(Usuario us) {
+        return us==null? buscador.buscaSitiosDeAcuerdoAUnUsuario() : buscador.buscaSitiosDeAcuerdoAUnUsuario(us);
     }
 }

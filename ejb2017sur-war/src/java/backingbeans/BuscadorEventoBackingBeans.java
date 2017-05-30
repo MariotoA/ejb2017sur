@@ -26,7 +26,7 @@ public class BuscadorEventoBackingBeans {
     private BuscadorEventoLocal buscador;
     
     public List<VistaEvento> getEventosSegunUsuario(Usuario usuario) {
-        return buscador.buscaEventosMostrablesAlUsuario(usuario);
+        return usuario==null? buscador.buscaEventosMostrablesAlUsuario():buscador.buscaEventosMostrablesAlUsuario(usuario);
     }
     
     public List<VistaEvento> getEventosSegunCadena(String cadena) {

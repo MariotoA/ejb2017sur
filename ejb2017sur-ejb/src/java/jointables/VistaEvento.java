@@ -23,8 +23,11 @@ public class VistaEvento {
         this.evento = ev;
         this.sesion = ses;
     }
+    public String next() {
+        return String.format("eventoDetalle.xhtml?id=%s&eterno=%s", Long.toString(this.chooseId()),Boolean.toString(this.isEternal()));
+    }
     public VistaEvento(Evento ev) {
-        this(null,ev);
+        this(new Sesion(),ev);
     }
 
     public Evento getEvento() {
@@ -42,8 +45,16 @@ public class VistaEvento {
     public void setSesion(Sesion sesion) {
         this.sesion = sesion;
     }
-    
-    public boolean isEternal() {
-        return this.sesion==null;
+    public Long chooseId() {
+        return this.isEternal()? this.evento.getId() : this.sesion.getId();
     }
+    public boolean isEternal() {
+        return this.sesion.getId()==null;
+    }
+    
+    @Override
+    public String toString() {
+        return this.sesion+ " " + this.evento;
+    }
+    
 }
