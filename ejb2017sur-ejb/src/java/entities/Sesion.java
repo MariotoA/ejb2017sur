@@ -49,9 +49,6 @@ public class Sesion implements Serializable {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Evento eventoCelebrado;
-     /*Relaciones con Interes*/
-    @OneToMany(mappedBy="sesionReferida")
-    private List<Interes> sesionesAlasQueSeRefiere;
 
     public Date getFechaInicio() {
         return fechaInicio;
@@ -84,15 +81,6 @@ public class Sesion implements Serializable {
         this.eventoCelebrado = eventoCelebrado;
     }
 
-    public List<Interes> getSesionesAlasQueSeRefiere() {
-        return sesionesAlasQueSeRefiere;
-    }
-
-    public void setSesionesAlasQueSeRefiere(List<Interes> sesionesAlasQueSeRefiere) {
-        this.sesionesAlasQueSeRefiere = sesionesAlasQueSeRefiere;
-    }
-    
-    
     
 
     public Double getPrecio() {
@@ -103,17 +91,6 @@ public class Sesion implements Serializable {
         this.precio = precio;
     }
 
-   
-
-    public void setFechaInicio(Timestamp fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-   
-
-    public void setFechaFin(Timestamp fechaFin) {
-        this.fechaFin = fechaFin;
-    }
 
     public String getUrlCompraEntrada() {
         return urlCompraEntrada;

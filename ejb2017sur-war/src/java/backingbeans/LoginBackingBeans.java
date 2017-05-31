@@ -93,21 +93,12 @@ public class LoginBackingBeans {
         usuario = null;
         FacesContext ctx = FacesContext.getCurrentInstance();
         ctx.getExternalContext().invalidateSession();
-        return null;
+        return "eventoGenerico.xhtml";
     }
     
-    public boolean puedeEditar() {
-        Evento eventoEditable=new Evento();
-        Map<String,String> map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        if (map.containsKey("id")&&map.containsKey("eterno")) {
-            Long l = Long.parseLong(map.get("id"));
-            if (Boolean.parseBoolean(map.get("eterno"))) {
-                eventoEditable = this.ev.getEventoPorId(l).getEvento();
-            } else {
-                eventoEditable = this.ev.getSesionEventoPorId(l).getEvento();
-            }
-        }
-        return isLogged() && eventoEditable.getCreador().getNombre().equals(this.usuario.getNombre())
+    public boolean puedeEditar(VistaEvento v) {
+        
+        return isLogged() && v.getEvento().getCreador().getNombre().equals(this.usuario.getNombre())
                 || isPeriodista();
     }
 }

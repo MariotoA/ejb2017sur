@@ -22,7 +22,7 @@ import negocio.BuscadorEventoLocal;
 
 @ManagedBean(name = "permisos")
 @RequestScoped
-public class PermisiosUsuariosBackingBeans {
+public class PermisosUsuariosBackingBeans {
     @EJB
     private BuscadorEventoLocal buscador;
     @EJB

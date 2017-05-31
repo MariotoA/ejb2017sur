@@ -47,11 +47,13 @@ public class BuscadorEvento implements BuscadorEventoLocal {
     }
     
     
+    
     @Override
     public List<VistaEvento> buscaEventosMostrablesAlUsuario(Usuario usuario) {
         List<Object[]> aux = em.createNamedQuery("Evento.FINDTOUSER").setParameter("usuario_id", usuario.getId()).getResultList();
         List<VistaEvento> list = aux.stream().map(arr -> new VistaEvento((Sesion) arr[0],(Evento) arr[1])).collect(Collectors.toList());
-        this.buscaEventosMostrablesAlUsuario().stream().forEach(p-> list.add(p));
+        this.buscaEventosMostrablesAlUsuario().stream().filter(p->!list.contains(p)).forEach(p-> list.add(p));
+        
         return list;
     }
     
@@ -87,6 +89,19 @@ public class BuscadorEvento implements BuscadorEventoLocal {
     public VistaEvento getEventoPorId(Long id) {
         System.out.println(em.find(Evento.class, id));
         return new VistaEvento(em.find(Evento.class, id));
+    }
+
+    @Override
+    public List<VistaEvento> buscaEventosNoValidados() {
+        return em.createQuery("SELECT e FROM Evento e WHERE e.validador IS NULL",Evento.class)
+                .getResultList().stream().map(p->new VistaEvento(p)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VistaEvento> buscaEventosDeUsuario(Usuario usuario) {
+        return em.createQuery("SELECT e FROM Evento e JOIN e.creador u WHERE u.nombre = :nombre",Evento.class)
+                .setParameter("nombre", usuario.getNombre()).getResultList()
+                .stream().map(p->new VistaEvento(p)).collect(Collectors.toList());
     }
 
     

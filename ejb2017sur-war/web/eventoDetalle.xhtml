@@ -18,12 +18,12 @@
                 <p:menuitem value="Búsqueda" url="busqueda.xhtml"/>
                 <c:choose>
                 <c:when test="#{login.logged}">
-                    <p:menuitem value="mis eventos" url="eventoGenerico.xhtml" />
+                    <p:menuitem value="mis eventos" url="misEventos.xhtml" />
                 </c:when>
                 </c:choose>
                 <c:choose>
                     <c:when test="#{login.periodista}">
-                        <p:menuitem value="Validaciones" url="eventoGenerico.xhtml" />
+                        <p:menuitem value="Validaciones" url="validaciones.xhtml" />
                         <p:menuitem value="Permisos" url="permisos.xhtml" />
                     </c:when>
                 </c:choose>
@@ -185,7 +185,7 @@
                         </c:when>
                     </c:choose>
                     <c:choose>
-                        <c:when test="#{login.puedeEditar()}">
+                        <c:when test="#{login.puedeEditar(eventoSeleccionado.vistaEvento)}">
                             <p:commandButton value="Añadir Sesión" onclick="PF('creaSes').show();">
                                 <f:param value="#{eventoSeleccionado.vistaEvento.chooseId()}" name="id"></f:param>
                                 <f:param value="#{eventoSeleccionado.vistaEvento.eternal}" name="eterno"/>
@@ -196,21 +196,62 @@
             </p:outputPanel>
                 <c:choose>
                         <c:when test="#{login.logged}">
-                            <h:panelGrid columns="1">
-                            <p:commandButton value="Like: 90%"></p:commandButton>
-                            <p:commandButton value="Dislike: 10%"></p:commandButton>
-                            <p:commandButton value="Voy a ir"></p:commandButton>
+                            <h:panelGrid columns="2">
+                                <p:commandButton  value="Like" update="likes" actionListener="#{interes.like(eventoSeleccionado.vistaEvento.evento, login.usuario)}"> 
+                                    
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                                </p:commandButton>
+                            <p:outputLabel id="likes" value="#{interes.allLikes(eventoSeleccionado.vistaEvento.evento)}"/>
+                            <p:commandButton value="Dislike" update="dislikes" actionListener="#{interes.disLike(eventoSeleccionado.vistaEvento.evento, login.usuario)}">
+                                
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                            </p:commandButton>
+                            <p:outputLabel id="dislikes" value="#{interes.allDislikes(eventoSeleccionado.vistaEvento.evento)}"/>
+                            <p:commandButton value="Voy a ir" actionListener="#{interes.voyAIr(eventoSeleccionado.vistaEvento.evento, login.usuario)}">
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/></p:commandButton>
+                            <p:spacer/>
                             </h:panelGrid>
                         </c:when>
                         <c:otherwise>
                             
-                            <h:panelGrid columns="1">
-                            <h:outputText value="Like: 90%"></h:outputText>
-                            <h:outputText value="Dislike: 10%"></h:outputText>
+                            <h:panelGrid columns="2">
+                            <p:outputLabel value="Like"/>
+                            <p:outputLabel value="#{interes.allLikes(eventoSeleccionado.vistaEvento.evento)}"/>
+                            <p:outputLabel value="Dislike"/>
+                            <p:outputLabel value="#{interes.allDislikes(eventoSeleccionado.vistaEvento.evento)}"/>
+                            <p:spacer/>
+                            <p:spacer/>
                             </h:panelGrid>
                         </c:otherwise>
                     </c:choose>
                 </p:panelGrid>
+            
+            
+            
+            
+            <c:choose>
+            <c:when test="#{login.puedeEditar(eventoSeleccionado.vistaEvento)}">
+                <p:commandButton value="Editar" onclick="PF('editar').show();">
+                    
+                    
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                </p:commandButton>
+                
+                <p:commandButton value="Ir a valoraciones" onclick="PF('Valorar').show()">
+                    
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                    
+                </p:commandButton>
+            </c:when>
+            
+        </c:choose>
+            
+            
         </h:form>
         
         <h:form id="crea_sesion">
@@ -228,16 +269,99 @@
                         </h:panelGrid>
                 <p:inputNumber id="Precio"  placeholder="Precio sesion" value="#{creaSesion.sesion.precio}" required="false"/>
                             <p:message for="Precio"/>
-                        <p:outputLabel for="Url_Entradas"/>
+                            <p:outputLabel for="Url_Entradas" value="Entradas:"/>
                         <p:inputText id="Url_Entradas" required="false" value="#{creaSesion.sesion.urlCompraEntrada}" />
                         <p:commandButton value="Añade sesión" ajax="false" action="#{creaSesion.creaSesion()}">
                             <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
                             <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
                         </p:commandButton>
                         </p:dialog>
+                        
                         </h:form>
         
         
+        
+        <h:form id="editar_evento">
+            <p:dialog header="Editar evento" widgetVar="editar" resizable="true">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Nombre_Evento" value="Nombre:"/>
+                    <p:inputText id="Nombre_Evento" value="#{eventoSeleccionado.vistaEvento.evento.nombre}" required="false">
+                        <f:ajax listener="#{modificadorEvento.evento.nombre}"  >
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                        </f:ajax>
+                        
+                    </p:inputText>
+                        <p:message for="Nombre_Evento"/>
+                    <h:outputLabel for="Imagen_Evento" value="Url imagen:" />
+                    <p:inputText id="Imagen_Evento" value="#{eventoSeleccionado.vistaEvento.evento.foto}" required="false" />
+                    <p:spacer></p:spacer>
+                    <p:autoComplete id="Selecciona_Sitio_Evento" value="#{eventoSeleccionado.vistaEvento.evento.localizacion.nombre}" 
+                                    completeMethod="#{creaEvento.completaNombreEvento}" var="sugerencia"
+                                    itemLabel="#{sugerencia}" itemValue="#{sugerencia}" forceSelection="true" required="true" />
+                    
+                </h:panelGrid>
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>url video:</p:column>
+                        <p:column>tag</p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:inputText id="Url_Video" value="#{eventoSeleccionado.vistaEvento.evento.video}" required="false" /></p:column>
+                        <p:column><p:inputText id="Tag" value="#{eventoSeleccionado.vistaEvento.evento.tag}" required="false" /></p:column>
+                    </p:row>
+                </p:panelGrid>
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="Descripcion_Crear_Evento" value="Descripcion:" />
+                    <h:inputTextarea id="Descripcion_Crear_Evento" value="#{eventoSeleccionado.vistaEvento.evento.descripcion}"></h:inputTextarea>
+                </h:panelGrid>
+                <c:choose>
+                    <c:when test="#{login.periodista}">
+                        <h:panelGrid columns="2">
+                        <h:outputLabel value="Prioridad"/>
+                        <p:inputNumber minValue="0" maxValue="10" emptyValue="0" decimalPlaces="0" value="#{eventoSeleccionado.vistaEvento.evento.prioridad}"/>
+                        <h:outputLabel value="Estado"/>
+                        <p:selectBooleanButton value="#{modificadorEvento.validar}" onLabel="Validado" offLabel="Sin validar"/>
+                        </h:panelGrid>
+                    </c:when>
+                </c:choose>
+                <p:commandButton value="Añadir evento" action="#{modificadorEvento.modificaNombre(login.usuario)}" ajax="false">
+                    
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                    
+                </p:commandButton>
+           
+             </p:dialog>
+        </h:form>
+        
+        <h:form id="comentarios">
+            
+                <p:dialog widgetVar="Valorar" header="Valoraciones">
+                    <p:dataScroller id="comments" value="#{creadorComentario.comentarios}" var="publicacion" chunkSize="4">
+                    <h:panelGrid columns="3">
+                        <h:outputText value="#{publicacion.creador.nombre}"></h:outputText>
+                        <p:rating value="#{publicacion.valoracion}" readonly="true"/>
+                        <h:outputText value="#{publicacion.texto}"></h:outputText>
+                    </h:panelGrid>
+                    
+                </p:dataScroller>
+                <p:spacer/>
+                <h:panelGrid columns="1">
+                    <p:rating value="#{creadorComentario.pub.valoracion}" />
+                    <p:inputTextarea id ="textAreaValoracion" value="#{creadorComentario.pub.texto}"></p:inputTextarea>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Enviar valoracion" action="#{creadorComentario.creaComentario(login.usuario)}" ajax="false">
+                        
+                            <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
+                            <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:dialog>  
+        
+        
+        </h:form>
         <p class="anuncios">AQUI VAN LOS ANUNCIOS A
             QUI VAN LOS ANUNCIOSS</p>
     </h:body>

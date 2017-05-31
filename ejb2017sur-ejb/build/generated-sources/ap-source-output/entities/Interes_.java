@@ -10,10 +10,10 @@ public abstract class Interes_ {
 
 	public static volatile SingularAttribute<Interes, Usuario> interesado;
 	public static volatile SingularAttribute<Interes, Boolean> acudir;
+	public static volatile SingularAttribute<Interes, Evento> eventoReferido;
 	public static volatile SingularAttribute<Interes, Boolean> meGusta;
 	public static volatile SingularAttribute<Interes, Long> id;
 	public static volatile SingularAttribute<Interes, Boolean> noMeGusta;
-	public static volatile SingularAttribute<Interes, Sesion> sesionReferida;
 
 }
 

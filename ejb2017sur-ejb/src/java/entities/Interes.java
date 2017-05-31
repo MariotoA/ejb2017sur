@@ -12,12 +12,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author malex
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Interes.FINDALLLIKES",query="SELECT COUNT(i.meGusta) FROM Interes i join i.eventoReferido e WHERE e.id=:id"),
+    @NamedQuery(name="Interes.FINDALLDISLIKES",query="SELECT COUNT(i.noMeGusta) FROM Interes i join i.eventoReferido e WHERE e.id=:id"),
+    @NamedQuery(name="Interes.FINDINTERESPREVIOUSLYDECLARED",query="SELECT i FROM Interes i JOIN i.interesado u JOIN i.eventoReferido e WHERE u.id = :id AND i.id = :evento")
+})
 public class Interes implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,13 +38,13 @@ public class Interes implements Serializable {
     
     /*interes--usuario*/
     @ManyToOne
-    @JoinColumn(nullable = false,unique=true)
+    @JoinColumn(nullable = false)
     private Usuario interesado;
     
-    /*interes--Sesion*/
+    /*interes--Evento*/
     @ManyToOne  
-    @JoinColumn(nullable = false,unique=true) 
-    private Sesion sesionReferida;
+    @JoinColumn(nullable = false) 
+    private Evento eventoReferido;
 
     
     
@@ -49,38 +56,38 @@ public class Interes implements Serializable {
         this.interesado = interesado;
     }
 
-    public Sesion getSesionReferida() {
-        return sesionReferida;
+    public Evento getEventoReferido() {
+        return eventoReferido;
     }
 
-    public void setSesionReferida(Sesion sesionReferida) {
-        this.sesionReferida = sesionReferida;
+    public void setEventoReferido(Evento eventoReferido) {
+        this.eventoReferido = eventoReferido;
     }
-    
 
-    public boolean isMeGusta() {
+    public Boolean getMeGusta() {
         return meGusta;
     }
 
-    public void setMeGusta(boolean meGusta) {
+    public void setMeGusta(Boolean meGusta) {
         this.meGusta = meGusta;
     }
 
-    public boolean isNoMeGusta() {
+    public Boolean getNoMeGusta() {
         return noMeGusta;
     }
 
-    public void setNoMeGusta(boolean noMeGusta) {
+    public void setNoMeGusta(Boolean noMeGusta) {
         this.noMeGusta = noMeGusta;
     }
 
-    public boolean isAcudir() {
+    public Boolean getAcudir() {
         return acudir;
     }
 
-    public void setAcudir(boolean acudir) {
+    public void setAcudir(Boolean acudir) {
         this.acudir = acudir;
     }
+    
 
     public Long getId() {
         return id;

@@ -49,8 +49,8 @@ public class EventoSeleccionadoBackingBeans {
            Long id;
         Boolean eterno;
         id = Long.parseLong(map.get("id"));
-        if (map.containsKey("eternal")) {
-            eterno =  Boolean.parseBoolean(map.get("eternal"));
+        if (map.containsKey("eterno")) {
+            eterno =  Boolean.parseBoolean(map.get("eterno"));
         } else {
             eterno=null;
         }

@@ -30,7 +30,8 @@ import javax.persistence.OneToMany;
             query="SELECT j FROM Evento j WHERE j.validador IS NOT NULL AND j.id NOT IN (SELECT e.id FROM Sesion s join s.eventoCelebrado e) AND (UPPER(j.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE CONCAT('%',CONCAT(UPPER(:palabra),'%')))"),
     @NamedQuery(name="Evento.FINDSIMILARTOWORD", 
             query="SELECT i,j FROM Sesion i JOIN i.eventoCelebrado j WHERE j.validador IS NOT NULL AND (UPPER(j.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.tag) = UPPER(:palabra) OR UPPER(j.localizacion.nombre) LIKE concat('%',concat(UPPER(:palabra),'%')) OR UPPER(j.descripcion) LIKE concat('%',concat(UPPER(:palabra),'%')) )"),
-    @NamedQuery(name="Evento.FINDTOUSER",query="SELECT ses,ev FROM Sesion ses join ses.eventoCelebrado ev join ev.localizacion sit WHERE ev.validador IS NOT NULL AND ev.tag IN (SELECT DISTINCT e.tag FROM Interes i join i.interesado u join i.sesionReferida s join s.eventoCelebrado e WHERE u.id = :usuario_id AND i.noMeGusta <> TRUE) ORDER BY ev.prioridad DESC")
+    @NamedQuery(name="Evento.FINDTOUSER",
+            query="SELECT ses,ev FROM Sesion ses join ses.eventoCelebrado ev join ev.localizacion sit WHERE ev.validador IS NOT NULL AND ev.tag IN (SELECT DISTINCT e.tag FROM Interes i join i.interesado u join i.eventoReferido e WHERE u.id = :usuario_id) AND ev.id NOT IN (SELECT DISTINCT e2.id FROM Interes i2 join i2.interesado u2 join i2.eventoReferido e2 WHERE u2.id = :usuario_id AND i2.noMeGusta = TRUE) ORDER BY ev.prioridad DESC")
    })
 
 //SELECT INTERES.*,EVENTO.*, SESION.*,USUARIO.* FROM INTERES JOIN USUARIO ON (INTERES.interesado_id=USUArIO.id) JOIN SESION ON (INTERES.`sesionReferida_id`=SESION.id) JOIN EVENTO ON (SESION.`eventoCelebrado_id` = EVENTO.id) WHERE INTERES.`noMeGusta` IS NOT TRUE;
@@ -55,7 +56,7 @@ public class Evento implements Serializable {
     private String tag;
     private String foto;
     private String video;
-    private int prioridad;
+    private Integer prioridad;
     
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -76,6 +77,10 @@ public class Evento implements Serializable {
     @OneToMany(mappedBy="eventoCelebrado")
     private List<Sesion> sesionesCelebradas;
     
+    
+     /*Relaciones con Evento*/
+    @OneToMany(mappedBy="eventoReferido")
+    private List<Interes> interesesSobreElEvento;
 
     public Usuario getCreador() {
         return creador;
@@ -151,14 +156,23 @@ public class Evento implements Serializable {
         this.video = video;
     }
 
-    public int getPrioridad() {
+    public Integer getPrioridad() {
         return prioridad;
     }
 
-    public void setPrioridad(int prioridad) {
+    public void setPrioridad(Integer prioridad) {
         this.prioridad = prioridad;
     }
 
+    public List<Interes> getInteresesSobreElEvento() {
+        return interesesSobreElEvento;
+    }
+
+    public void setInteresesSobreElEvento(List<Interes> interesesSobreElEvento) {
+        this.interesesSobreElEvento = interesesSobreElEvento;
+    }
+
+    
     public String getNombre() {
         return nombre;
     }

@@ -27,7 +27,6 @@ public class CreadorSesion implements CreadorSesionLocal {
     @Override
     public void creaSesion(Sesion sesion) {
         this.compruebaSesion(sesion);
-        this.arreglaSesion(sesion);
         this.em.merge(sesion);
     }
     
@@ -40,7 +39,4 @@ public class CreadorSesion implements CreadorSesionLocal {
         }
     }
 
-    private void arreglaSesion(Sesion sesion) {
-        sesion.setSesionesAlasQueSeRefiere(new ArrayList<>());
-    }
 }

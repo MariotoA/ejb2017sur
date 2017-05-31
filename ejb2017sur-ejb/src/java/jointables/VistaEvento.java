@@ -23,6 +23,9 @@ public class VistaEvento {
         this.evento = ev;
         this.sesion = ses;
     }
+    public boolean isValidado() {
+        return evento.getValidador()!=null;
+    }
     public String next() {
         return String.format("eventoDetalle.xhtml?id=%s&eterno=%s", Long.toString(this.chooseId()),Boolean.toString(this.isEternal()));
     }

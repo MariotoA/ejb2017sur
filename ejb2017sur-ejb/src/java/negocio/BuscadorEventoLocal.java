@@ -36,5 +36,9 @@ public interface BuscadorEventoLocal {
     VistaEvento getEventoPorId(Long id);
 
     public VistaEvento getEventoPorNombre(String get);
+
+    List<VistaEvento> buscaEventosNoValidados();
+
+    public List<VistaEvento> buscaEventosDeUsuario(Usuario usuario);
     
 }

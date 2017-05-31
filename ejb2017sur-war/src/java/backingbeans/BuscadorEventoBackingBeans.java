@@ -28,8 +28,15 @@ public class BuscadorEventoBackingBeans {
     public List<VistaEvento> getEventosSegunUsuario(Usuario usuario) {
         return usuario==null? buscador.buscaEventosMostrablesAlUsuario():buscador.buscaEventosMostrablesAlUsuario(usuario);
     }
+    public List<VistaEvento> getEventosDeUsuario(Usuario usuario) {
+        return buscador.buscaEventosDeUsuario(usuario);
+    }
     
     public List<VistaEvento> getEventosSegunCadena(String cadena) {
         return buscador.buscaEventosValidadosQueContenganPalabra(cadena);
+    }
+    
+    public List<VistaEvento> getEventosNoValidados() {
+        return buscador.buscaEventosNoValidados();
     }
 }

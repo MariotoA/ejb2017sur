@@ -18,12 +18,12 @@
                 <p:menuitem value="Búsqueda" url="busqueda.xhtml"/>
                 <c:choose>
                 <c:when test="#{login.logged}">
-                    <p:menuitem value="mis eventos" url="eventoGenerico.xhtml" />
+                    <p:menuitem value="mis eventos" url="misEventos.xhtml" />
                 </c:when>
                 </c:choose>
                 <c:choose>
                     <c:when test="#{login.periodista}">
-                        <p:menuitem value="Validaciones" url="eventoGenerico.xhtml" />
+                        <p:menuitem value="Validaciones" url="validaciones.xhtml" />
                         <p:menuitem value="Permisos" url="permisos.xhtml" />
                     </c:when>
                 </c:choose>
@@ -184,7 +184,31 @@
                     <h:outputText value="#{vistaEvento.evento.descripcion}" style="font-weight: bold"/>
                 </h:panelGrid>
                     
-                        <!-- TODO-->
+                  <c:choose>
+                        <c:when test="#{login.logged}">
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="Like" actionListener="#{interes.like(vistaEvento.evento, login.usuario)}"> 
+                                    
+                                </p:commandButton>
+                            <p:outputLabel value="#{interes.allLikes(vistaEvento.evento)}"/>
+                            <p:commandButton value="Dislike" actionListener="#{interes.disLike(vistaEvento.evento, login.usuario)}"/>
+                            <p:outputLabel value="#{interes.allDislikes(vistaEvento.evento)}"/>
+                            <p:commandButton value="Voy a ir" actionListener="#{interes.voyAIr(vistaEvento.evento, login.usuario)}"/>
+                            <p:spacer/>
+                            </h:panelGrid>
+                        </c:when>
+                        <c:otherwise>
+                            
+                            <h:panelGrid columns="2">
+                            <p:outputLabel value="Like"/>
+                            <p:outputLabel value="#{interes.allLikes(vistaEvento.evento)}"/>
+                            <p:outputLabel value="Dislike"/>
+                            <p:outputLabel value="#{interes.allDislikes(vistaEvento.evento)}"/>
+                            <p:spacer/>
+                            <p:spacer/>
+                            </h:panelGrid>
+                        </c:otherwise>
+                    </c:choose>
             </p:outputPanel>
                 </p:panelGrid>
                 </p:dataScroller>

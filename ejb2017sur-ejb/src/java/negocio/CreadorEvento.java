@@ -49,8 +49,14 @@ public class CreadorEvento implements CreadorEventoLocal {
         Query q = em.createQuery("SELECT i FROM Usuario i WHERE i.nombre = :nombre", Usuario.class);
         List<Usuario> aux = q.setParameter("nombre", evento.getCreador().getNombre()).getResultList();
         Usuario autor = aux.stream().findFirst().orElse(null);
+        if (evento.getValidador()!= null) {
+            Usuario validador = em.createQuery("SELECT i FROM Usuario i WHERE i.nombre = :nombre", Usuario.class)
+                    .setParameter("nombre", evento.getValidador().getNombre()).getSingleResult();
+            evento.setValidador(validador);
+        }
         evento.setCreador(autor);
         evento.setPublicaciones(new ArrayList<>());
+        evento.setInteresesSobreElEvento(new ArrayList<>());
         evento.setLocalizacion(this.obtenSitioAPartirDeSuNombre(evento.getLocalizacion().getNombre()));
         if (!autor.getRol().equals(Usuario.USUARIO)) {
             evento.setValidador(autor);

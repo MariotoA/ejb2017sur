@@ -18,12 +18,12 @@
                 <p:menuitem value="Búsqueda" url="busqueda.xhtml"/>
                 <c:choose>
                 <c:when test="#{login.logged}">
-                    <p:menuitem value="mis eventos" url="eventoGenerico.xhtml" />
+                    <p:menuitem value="mis eventos" url="misEventos.xhtml" />
                 </c:when>
                 </c:choose>
                 <c:choose>
                     <c:when test="#{login.periodista}">
-                        <p:menuitem value="Validaciones" url="eventoGenerico.xhtml" />
+                        <p:menuitem value="Validaciones" url="validaciones.xhtml" />
                         <p:menuitem value="Permisos" url="permisos.xhtml" />
                     </c:when>
                 </c:choose>

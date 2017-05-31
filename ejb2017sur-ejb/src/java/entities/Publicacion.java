@@ -13,19 +13,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author malex
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="Publicacion.FINDALLABOUTANEVENT",
+            query="SELECT p FROM Publicacion p JOIN p.eventoReferido e WHERE e.id = :id AND p.multimedia IS NULL AND p.titulo IS NULL AND (p.texto IS NOT NULL OR p.texto <> '')")
+})
 public class Publicacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable=false)
     private String titulo;
     private String multimedia;
     private String texto;
