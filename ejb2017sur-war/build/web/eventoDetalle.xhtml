@@ -241,16 +241,21 @@
                             <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
                 </p:commandButton>
                 
+                
+            </c:when>
+                
+            
+        </c:choose>
+            <c:choose>
+                <c:when test="#{login.logged}">
                 <p:commandButton value="Ir a valoraciones" onclick="PF('Valorar').show()">
                     
                             <f:param name="id" value="#{eventoSeleccionado.vistaEvento.chooseId()}"/>
                             <f:param name="eterno" value="#{eventoSeleccionado.vistaEvento.eternal}"/>
                     
                 </p:commandButton>
-            </c:when>
-            
-        </c:choose>
-            
+                </c:when>
+            </c:choose>
             
         </h:form>
         
